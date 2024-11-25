@@ -1,0 +1,45 @@
+
+
+/* Style for the sent message */
+.sent-message {
+    text-align: right;
+    background-color: rgb(220, 178, 194);
+    border-radius: 4px;
+    padding: 3px 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+
+  }
+  
+  /* Style for the received message */
+  .received-message {
+    text-align: left;
+    background-color:LightGray;
+    border-radius: 4px;
+    padding: 3px 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+  }
+
+  .message-header {
+    /* display: flex; */
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+  }
+  
+  .message-time {
+    font-size: 10px;
+  }
+  
+  .message-body {
+    margin-top: 6px;
+  }
+  
+
+.message-footer{
+  justify-content: space-between;
+  align-items: center;
+}
