@@ -1,0 +1,20 @@
+.subcategory-row {
+    display: flex;
+    align-items: center;
+}
+
+.subcategory-name {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.addwidthmin{
+  min-width: 180px  !important;
+}

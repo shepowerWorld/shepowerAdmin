@@ -1,0 +1,126 @@
+.border {
+  border: 1px solid gray !important;
+}
+
+.loader {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  padding-right: 5px;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.backgroundimg{
+    background-image: url("../../../assets/img/mobilescreen.png");
+}
+
+
+.timee{color: #1F1F1F;
+    text-shadow: 0px 0px 3px rgba(255, 255, 255, 0.25);
+    font-family: Roboto;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    letter-spacing: -0.1px;
+    padding-top: 50px;
+
+}
+
+.dayy{
+    color: #1F1F1F;
+    text-shadow: 0px 0px 3px rgba(255, 255, 255, 0.25);
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+    letter-spacing: 1.4px;
+}
+
+.bgtrasnfort{
+    
+}
+
+.cardaaaa{
+
+    width: 95%;
+   
+    margin-left: 10px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+
+.logogname{
+    color: var(--accent_color, #665BEB);
+font-family: Roboto;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+
+padding-left: 5px;
+}
+
+.now{
+    color: #595959;
+font-family: Roboto;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: 16px; /* 133.333% */
+}
+
+.hiuser{
+    color: var(--Settings-first-title, #222);
+font-feature-settings: 'clig' off, 'liga' off;
+font-family: Roboto;
+font-size: 15px;
+font-style: normal;
+font-weight: 400;
+line-height: 20px; /* 133.333% */
+margin-top: 10px;
+}
+
+.messagetext {
+    display: flex;
+  flex: 1 0 0; /* Grow to fill the available space, but don't shrink */
+  white-space: nowrap; /* Prevents text from wrapping to the next line */
+  overflow: hidden;
+    color: var(--Secondary-color, #686868);
+font-family: Roboto;
+font-size: 13px;
+font-style: normal;
+font-weight: 400;
+line-height: 20px; /* 153.846% */
+padding-top: 5px;
+padding-bottom: 10px;
+
+}
+
+.falled{
+    width: 750px
+}
+
+.displaynonimage{
+    
+ 
+    height: 170px;
+    flex-shrink: 0;
+    background: linear-gradient(218deg, #D344EB 13.18%, #F589BD 53.35%, #FAA 88.25%);
+}
