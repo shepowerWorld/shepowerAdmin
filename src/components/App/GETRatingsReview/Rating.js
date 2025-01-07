@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, Row, Col, Card, Breadcrumb, } from "react-bootstrap";
+import { Button, Modal, Row, Col, Card, Breadcrumb } from "react-bootstrap";
 import DataTableExtensions from "react-data-table-component-extensions";
 //import { API_URL, KYC_img, Profile_img } from "../../../service";
 import { useLocation, useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
 import { APiURl, Profile_img } from "../../Services/ApiAddress";
-import {Rating,Typography} from "@mui/material";
+import { Rating, Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 
 function convertArrayOfObjectsToCSV(array) {
@@ -62,37 +62,36 @@ function Alerts() {
   const [combinedData, setCombinedData] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
   useEffect(() => {
     getAll();
   }, []);
 
   const getAll = () => {
-
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + token);
     var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-      };
-      
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
 
-    fetch(APiURl+"getAllratingsReview", requestOptions)
+    fetch(APiURl + "getAllratingsReview", requestOptions)
       .then((response) => response.json())
-      .then((result) => { console.log("result",result)
+      .then((result) => {
+        console.log("result", result);
         Setdata(result.result);
-        console.log("result",result);
-        const filterdata = result.FAQ.map((items)=>{
-          const {Question,Answer} = items
+        console.log("result", result);
+        const filterdata = result.FAQ.map((items) => {
+          const { Question, Answer } = items;
 
-          return{
-            Question,Answer
-          }
-        })
+          return {
+            Question,
+            Answer,
+          };
+        });
 
         setCombinedData(filterdata);
-      
       })
       .catch((error) => console.log("error", error));
   };
@@ -102,25 +101,24 @@ function Alerts() {
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    
+
     var raw = JSON.stringify({
-      "id": id
+      id: id,
     });
-    
+
     var requestOptions = {
-      method: 'DELETE',
+      method: "DELETE",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
-    fetch(APiURl+`deleteFAQ`, requestOptions)
+    fetch(APiURl + `deleteFAQ`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
-          getAll();
-          Primaryalert(result.message);
-        
+        getAll();
+        Primaryalert(result.message);
       })
       .catch((error) => console.log("error", error));
   };
@@ -128,131 +126,159 @@ function Alerts() {
   const columns = [
     {
       name: "Leader Name",
-      selector: (row) => row.leaderuserDeatils[0].firstname,
+      selector: (row) => row.leaderuserDeatils[0]?.firstname,
       sortable: true,
       wrap: true,
     },
 
     {
-        name: " Leader Profile ",
-        selector: (row) => row.leaderuserDeatils[0].profile_img,
-        sortable: true,
-        wrap: true,
-       
-        cell: (row) => (
-          <div
+      name: " Leader Profile ",
+      selector: (row) => row.leaderuserDeatils[0]?.profile_img,
+      sortable: true,
+      wrap: true,
+
+      cell: (row) => (
+        <div
+          style={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            overflow: "hidden",
+          }}>
+          <img
             style={{
-              width: "40px",
-              height: "40px",
-              borderRadius: "50%",
-              overflow: "hidden",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
             }}
-          >
-            <img
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
-              src={
-                row.leaderuserDeatils[0].profile_img != " "
-                  ? Profile_img + row.leaderuserDeatils[0].profile_img
-                  : require("../../../assets/img/defalutavtar.jpg")
-              }
-              alt="Image"
-            />
-          </div>
-        ),
-      },
+            src={
+              row.leaderuserDeatils[0]?.profile_img != " "
+                ? Profile_img + row.leaderuserDeatils[0]?.profile_img
+                : require("../../../assets/img/defalutavtar.jpg")
+            }
+            alt="Image"
+          />
+        </div>
+      ),
+    },
 
-    
-      {
-        name: "Leader Courageous",
-        selector: (row) => row.courageous,
-        sortable: true,
-        wrap: true,
-        cell: (row) => (
-            <Stack spacing={1} className="rating-stars block my-rating-7 ratingcenter">
-            <Rating name="half-rating-read" value={row.courageous} max={5} size="large" readOnly />
-          </Stack>
-          ),
-      },
+    {
+      name: "Leader Courageous",
+      selector: (row) => row.courageous,
+      sortable: true,
+      wrap: true,
+      cell: (row) => (
+        <Stack
+          spacing={1}
+          className="rating-stars block my-rating-7 ratingcenter">
+          <Rating
+            name="half-rating-read"
+            value={row.courageous}
+            max={5}
+            size="large"
+            readOnly
+          />
+        </Stack>
+      ),
+    },
 
-      {
-        name: "Leader Efficient",
-        selector: (row) => row.efficient,
-        sortable: true,
-        wrap: true,
-        cell: (row) => (
-            <Stack spacing={1} className="rating-stars block my-rating-7 ratingcenter">
-            <Rating name="half-rating-read" value={row.efficient} max={5} size="large" readOnly />
-          </Stack>
-          ),
-      },
+    {
+      name: "Leader Efficient",
+      selector: (row) => row.efficient,
+      sortable: true,
+      wrap: true,
+      cell: (row) => (
+        <Stack
+          spacing={1}
+          className="rating-stars block my-rating-7 ratingcenter">
+          <Rating
+            name="half-rating-read"
+            value={row.efficient}
+            max={5}
+            size="large"
+            readOnly
+          />
+        </Stack>
+      ),
+    },
 
-      {
-        name: "Leader Helpful",
-        selector: (row) => row.helpful,
-        sortable: true,
-        wrap: true,
-        cell: (row) => (
-            <Stack spacing={1} className="rating-stars block my-rating-7 ratingcenter">
-            <Rating name="half-rating-read" value={row.helpful} max={5} size="large" readOnly />
-          </Stack>
-          ),
-      },
+    {
+      name: "Leader Helpful",
+      selector: (row) => row.helpful,
+      sortable: true,
+      wrap: true,
+      cell: (row) => (
+        <Stack
+          spacing={1}
+          className="rating-stars block my-rating-7 ratingcenter">
+          <Rating
+            name="half-rating-read"
+            value={row.helpful}
+            max={5}
+            size="large"
+            readOnly
+          />
+        </Stack>
+      ),
+    },
 
-      {
-        name: "Leader Knowledgeable",
-        selector: (row) => row.knowledgeable,
-        sortable: true,
-        wrap: true,
-        cell: (row) => (
-            <Stack spacing={1} className="rating-stars block my-rating-7 ratingcenter">
-            <Rating name="half-rating-read" value={row.knowledgeable} max={5} size="large" readOnly />
-          </Stack>
-          ),
-      },
-       
-      {
-        name: "Citizen Name",
-        selector: (row) => row.citizenuserDeatils[0].firstname,
-        sortable: true,
-        wrap: true,
-      },
+    {
+      name: "Leader Knowledgeable",
+      selector: (row) => row.knowledgeable,
+      sortable: true,
+      wrap: true,
+      cell: (row) => (
+        <Stack
+          spacing={1}
+          className="rating-stars block my-rating-7 ratingcenter">
+          <Rating
+            name="half-rating-read"
+            value={row.knowledgeable}
+            max={5}
+            size="large"
+            readOnly
+          />
+        </Stack>
+      ),
+    },
 
-      {
-        name: " Citizen Profile ",
-        selector: (row) => row.citizenuserDeatils[0].profile_img,
-        sortable: true,
-        wrap: true,
-       
-        cell: (row) => (
-          <div
+    {
+      name: "Citizen Name",
+      selector: (row) => row.citizenuserDeatils[0]?.firstname,
+      sortable: true,
+      wrap: true,
+    },
+
+    {
+      name: " Citizen Profile ",
+      selector: (row) => row.citizenuserDeatils[0]?.profile_img,
+      sortable: true,
+      wrap: true,
+
+      cell: (row) => (
+        <div
+          style={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            overflow: "hidden",
+          }}>
+          <img
             style={{
-              width: "40px",
-              height: "40px",
-              borderRadius: "50%",
-              overflow: "hidden",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
             }}
-          >
-            <img
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
-              src={
-                row.leaderuserDeatils[0].profile_img != " "
-                  ? Profile_img + row.leaderuserDeatils[0].profile_img
-                  : require("../../../assets/img/defalutavtar.jpg")
-              }
-              alt="Image"
-            />
-          </div>
-        ),
-      },
-      
+            src={
+              row.leaderuserDeatils[0]?.profile_img != " "
+                ? Profile_img + row.leaderuserDeatils[0]?.profile_img
+                : require("../../../assets/img/defalutavtar.jpg")
+            }
+            alt="Image"
+          />
+        </div>
+      ),
+    },
   ];
 
   const tableData = {
@@ -282,8 +308,7 @@ function Alerts() {
         <div className="main-container container-fluid">
           <div className="breadcrumb-header justify-content-between">
             <div className="left-content">
-              <span className="main-content-title mg-b-0 mg-b-lg-1">
-              </span>
+              <span className="main-content-title mg-b-0 mg-b-lg-1"></span>
             </div>
           </div>
 

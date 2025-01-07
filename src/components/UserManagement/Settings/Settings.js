@@ -1,9 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+} from "@mui/material";
 // import './User.css'
-import './Settings.css'
-import styled from '@emotion/styled';
+import "./Settings.css";
+import styled from "@emotion/styled";
 // import { API_URL } from '../../service';
 
 function Pagination({ totalItems, itemsPerPage, currentPage, onPageChange }) {
@@ -14,7 +23,7 @@ function Pagination({ totalItems, itemsPerPage, currentPage, onPageChange }) {
   }
 
   return (
-    <div className="pagination" >
+    <div className="pagination">
       <button
         style={{
           padding: "8px 12px",
@@ -24,11 +33,13 @@ function Pagination({ totalItems, itemsPerPage, currentPage, onPageChange }) {
           cursor: "pointer",
           transition: "background-color 0.3s ease",
           marginRight: "5px",
-          ...(currentPage === 1 && { cursor: "not-allowed", backgroundColor: "#ddd" })
+          ...(currentPage === 1 && {
+            cursor: "not-allowed",
+            backgroundColor: "#ddd",
+          }),
         }}
         disabled={currentPage === 1}
-        onClick={() => onPageChange(currentPage - 1)}
-      >
+        onClick={() => onPageChange(currentPage - 1)}>
         Previous
       </button>
       {pageNumbers.map((number) => (
@@ -41,11 +52,10 @@ function Pagination({ totalItems, itemsPerPage, currentPage, onPageChange }) {
             border: "1px solid #ddd",
             cursor: "pointer",
             transition: "background-color 0.3s ease",
-            marginRight: "5px"
+            marginRight: "5px",
           }}
           onClick={() => onPageChange(number)}
-          className={currentPage === number ? "active" : ""}
-        >
+          className={currentPage === number ? "active" : ""}>
           {number}
         </button>
       ))}
@@ -58,43 +68,43 @@ function Pagination({ totalItems, itemsPerPage, currentPage, onPageChange }) {
           cursor: "pointer",
           transition: "background-color 0.3s ease",
           marginRight: "5px",
-          ...(currentPage === pageNumbers.length && { cursor: "not-allowed", backgroundColor: "#ddd" })
+          ...(currentPage === pageNumbers.length && {
+            cursor: "not-allowed",
+            backgroundColor: "#ddd",
+          }),
         }}
         disabled={currentPage === pageNumbers.length}
-        onClick={() => onPageChange(currentPage + 1)}
-      >
+        onClick={() => onPageChange(currentPage + 1)}>
         Next
       </button>
     </div>
-
   );
 }
 
-
 function DynamicTable() {
   const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(8)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
   const navigate = useNavigate();
 
   useEffect(() => {
     var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append("Content-Type", "application/json");
 
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow',
+      redirect: "follow",
     };
-    fetch(+ 'getAllProfile', requestOptions)
-      .then(response => response.json())
-      .then(data => setData(data.result), console.log("result", data))
-      .catch(error => console.error(error));
+    fetch(+"getAllProfile", requestOptions)
+      .then((response) => response.json())
+      .then((data) => setData(data.result), console.log("result", data))
+      .catch((error) => console.error(error));
   }, []);
 
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber)
-  }
+    setCurrentPage(pageNumber);
+  };
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
@@ -103,57 +113,61 @@ function DynamicTable() {
   //const handleNavigateClick = () => {
   // navigate('/Astro');
 
-
   return (
     <div className="container1">
       <h1>Group Mangement</h1>
 
-      < table >
+      <table>
         <thead>
           <tr>
-
             <th>groupname</th>
             <th>No. of participants in group</th>
 
             <th>delete</th>
 
             <th></th>
-
-
-
           </tr>
         </thead>
 
-        < tbody >
-
-          {
-            currentItems.map((item) => (
-              <tr key={item.id}>
-
-                <td>{item.groupname}</td>
-                <td>{item.Noofparticipantsingroup}</td>
-                {/* <td>{item.phonenumber}</td>
+        <tbody>
+          {currentItems.map((item) => (
+            <tr key={item.id}>
+              <td>{item.groupname}</td>
+              <td>{item.Noofparticipantsingroup}</td>
+              {/* <td>{item.phonenumber}</td>
                 <td>{item.devicetype}</td> */}
-                <td><img style={{ width: 100, height: 50, alignSelf: "center", marginTop: 15 }} src={'https://latestsoulipiebucket2.s3.ap-south-1.amazonaws.com/images/' + item.profile_img} alt={item.AstroSign_name} /></td>
-                {/* <td>{item.block / unblock}</td> */}
-                <td>{item.delete}</td>
-                {/* <td>{item.searchbar}</td> */}
+              <td>
+                <img
+                  style={{
+                    width: 100,
+                    height: 50,
+                    alignSelf: "center",
+                    marginTop: 15,
+                  }}
+                  src={
+                    "https://latestsoulipiebucket2.s3.ap-south-1.amazonaws.com/images/" +
+                    item?.profile_img
+                  }
+                  alt={item.AstroSign_name}
+                />
+              </td>
+              {/* <td>{item.block / unblock}</td> */}
+              <td>{item.delete}</td>
+              {/* <td>{item.searchbar}</td> */}
 
-                <td />
-              </tr>
-            ))
-          }
+              <td />
+            </tr>
+          ))}
         </tbody>
-      </table >
+      </table>
       <Pagination
         totalItems={data.length}
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={handlePageChange}
       />
-    </div >
+    </div>
   );
 }
-
 
 export default DynamicTable;

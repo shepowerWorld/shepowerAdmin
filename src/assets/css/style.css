@@ -26241,7 +26241,7 @@ a.option-dots {
 }
 
 .sidebar-mini .app-sidebar {
-    width: 265px !important;
+    width: 240px !important;
 }
 
 .app-sidebar {
@@ -26945,7 +26945,6 @@ a.option-dots {
         position: initial;
         font-size: 13px;
         line-height: 1;
-        vertical-align: middle;
         font-weight: 400;
         color: #7b8191;
     }
@@ -27037,7 +27036,7 @@ a.option-dots {
     background: #fff;
     border-bottom: 1px solid #ededf5;
     position: fixed;
-    border-right: 1px solid #ededf5;
+    /* border-right: 1px solid #ededf5; */
     z-index: 999;
     top: 0;
     left: 0;

@@ -1,24 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Card, Col, Row, Table, Button, Modal, ModalBody } from "react-bootstrap";
-//import './Cards.css';
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Row,
+  Table,
+  Button,
+  Modal,
+  ModalBody,
+} from "react-bootstrap";
+import "./Contacts.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "../../main.css";
-import "./main.css"
+import "./main.css";
 import Swal from "sweetalert2";
-import { APiURl, Profile_img,socket } from "../../Services/ApiAddress";
-const Cards = () => {
+import { APiURl, Profile_img, socket } from "../../Services/ApiAddress";
+
+const Contacts = () => {
   const [data, Setdata] = useState([]);
   const [result2, setResult2] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
   const [loading, setloading] = useState(true);
   const [ImageURl, setImageURl] = useState([]);
   const [modalopen, setmodalopen] = useState(false);
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
+
   const dateConverted = (date) => {
     const formatedDate = new Date(date);
     return formatedDate.toLocaleDateString();
   };
+
   useEffect(() => {
     handle();
   }, []);
@@ -36,25 +48,29 @@ const Cards = () => {
 
   const handle = async () => {
     try {
-
       var myHeaders = new Headers();
       myHeaders.append("Authorization", "Bearer " + token);
 
       var requestOptions = {
-        method: 'GET',
+        method: "GET",
         headers: myHeaders,
-        redirect: 'follow'
+        redirect: "follow",
       };
 
-      const response = await fetch(APiURl+"getAllUsers", requestOptions);
+      const response = await fetch(APiURl + "getAllUsers", requestOptions);
       const result = await response.json();
-      console.log('leaders..',result.response)
-      const filteredData = result.response.filter((item) =>
-        item.profileID.includes("Leader")
-      );
-      setCombinedData(filteredData)
+      // console.log("leaders..", result.response);
+
+      const filteredData = result.response
+        .filter((item) => item.profileID.includes("Leader"))
+        .map((item) => ({
+          ...item,
+          isLeader: false,
+        }));
+
+      setCombinedData(filteredData);
       Setdata(filteredData);
-      console.log("result", result);
+      console.log("Data____________________________", filteredData);
     } catch (error) {
       console.log("error", error);
     }
@@ -105,11 +121,19 @@ const Cards = () => {
   const CustomSwitch = ({ checked, onChange }) => (
     <div
       className={`custom-switch ${checked ? "active" : ""}`}
-      onClick={onChange}
-    >
+      onClick={onChange}>
       <div className={`switch-slider ${checked ? "active" : ""}`} />
     </div>
   );
+
+  const CustomSwitchApprove = ({ checked, onChange }) => (
+    <div
+      className={`custom-switch ${checked ? "active" : ""}`}
+      onClick={onChange}>
+      <div className={`switch-slider ${checked ? "active" : ""}`} />
+    </div>
+  );
+
   const Blockuser = (id) => {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + token);
@@ -126,13 +150,13 @@ const Cards = () => {
       redirect: "follow",
     };
 
-    fetch(APiURl+"adminBlock", requestOptions)
+    fetch(APiURl + "adminBlock", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.status);
         if (result.status === true) {
-          socket.emit("AdminBlock",result.response)
-          console.log("Scoket Block..",result.response)
+          socket.emit("AdminBlock", result.response);
+          console.log("Scoket Block..", result.response);
           handle();
           Title(result.message);
         }
@@ -140,45 +164,59 @@ const Cards = () => {
       .catch((error) => console.log("error", error));
   };
 
-  const openmodel=(imageurls)=>{
+  const BlockApproveLeader = (id) => {
+    console.log("id________________________________", id);
+    // api writeen here
+    const _id = id;
+    handle();
+    Title("Leader Approved Successfully");
+  };
+
+  const openmodel = (imageurls) => {
     setImageURl(imageurls);
-    setmodalopen(true)
-  } 
+    setmodalopen(true);
+  };
+
   const columns = [
     {
       name: "Profile Image",
       selector: (row) => row.profileID,
       sortable: true,
       wrap: true,
-      maxWidth:"40px",
+      maxWidth: "40px",
       cell: (row) => (
-        <div style={{
-          width:"40px",
-          height:"40px",
-          borderRadius:"50%",
-          overflow: 'hidden',
-        }}
-        
-        onClick={()=>{row.profile_img != " " && openmodel(Profile_img + row.profile_img)}}
-        
-        >
-        <img
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-        }}
-        src= {row.profile_img != " "? Profile_img + row.profile_img : require('../../../assets/img/defalutavtar.jpg') }
-        alt="Image"
-      /></div>
+        <div
+          style={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            overflow: "hidden",
+          }}
+          onClick={() => {
+            row?.profile_img != " " &&
+              openmodel(Profile_img + row?.profile_img);
+          }}>
+          <img
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+            src={
+              row?.profile_img != " "
+                ? Profile_img + row?.profile_img
+                : require("../../../assets/img/defalutavtar.jpg")
+            }
+            alt="Image"
+          />
+        </div>
       ),
     },
     {
       name: "First Name",
-      selector: (row) => row.firstname,
+      selector: (row) => row?.firstname,
       sortable: true,
       wrap: true,
-   
     },
 
     {
@@ -186,28 +224,24 @@ const Cards = () => {
       selector: (row) => row.lastname,
       sortable: true,
       wrap: true,
-        
     },
     {
       name: "Mobile Number",
       selector: (row) => row.mobilenumber,
       sortable: true,
       wrap: true,
-        
     },
     {
       name: "Email",
       selector: (row) => row.email,
       sortable: true,
       wrap: true,
-        
     },
     {
       name: "DOB",
       selector: (row) => dateConverted(row.dob),
       sortable: true,
       wrap: true,
-        
     },
     {
       name: "Actions",
@@ -215,6 +249,18 @@ const Cards = () => {
         <CustomSwitch
           checked={row.adminBlock == true}
           onChange={() => Blockuser(row._id)}
+        />
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+    },
+    {
+      name: "Approve/Reject",
+      cell: (row) => (
+        <CustomSwitchApprove
+          checked={row.isLeader == true}
+          onChange={() => BlockApproveLeader(row._id)}
         />
       ),
       ignoreRowClick: true,
@@ -229,7 +275,7 @@ const Cards = () => {
   };
 
   const Export = ({ onExport }) => (
-    <Button onClick={(e) => onExport(e.target.value)}>Export</Button>
+    <Button onClick={(e) => onExport(e)}>Export</Button>
   );
 
   const actionsMemo = React.useMemo(
@@ -240,12 +286,14 @@ const Cards = () => {
   const handleChange = (e) => {};
 
   const handleChange1 = (e) => {};
-  const handechange = () =>{
-    setmodalopen(false)
-  }
+
+  const handechange = () => {
+    setmodalopen(false);
+  };
+
   return (
     <>
-      <div style={{ }}>
+      <div>
         <div className="main-container container-fluid">
           <div className="breadcrumb-header justify-content-between">
             <div className="left-content">
@@ -256,13 +304,12 @@ const Cards = () => {
             <div className="justify-content-center mt-2">
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item className="breadcrumb-item tx-15" href="#">
-                User Management
+                  User Management
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item "
                   active
-                  aria-current="page"
-                >
+                  aria-current="page">
                   Leader Management
                 </Breadcrumb.Item>
               </Breadcrumb>
@@ -274,15 +321,7 @@ const Cards = () => {
               <Card className="custom-card">
                 <Card.Body>
                   <div>
-                    <h6 className="main-content-label mb-1">
-                      {/* Sender Kyc Mangement */}
-                    </h6>
-                    {/* <p className="text-muted card-sub-title">
-                Exporting data from a table can often be a key part of a
-                complex application. The Buttons extension for DataTables
-                provides three plug-ins that provide overlapping functionality
-                for data export:
-              </p> */}
+                    <h6 className="main-content-label mb-1"></h6>
                   </div>
                   <div className="table-responsive fileexport pos-relative">
                     <DataTableExtensions {...tableData}>
@@ -300,10 +339,20 @@ const Cards = () => {
               </Card>
             </Col>
           </Row>
-          <Modal show={modalopen} onHide={handechange} aria-labelledby="contained-modal-title-vcenter"style={{marginLeft:"10%"}}>
-            <ModalBody style={{width:"fit-content",}}>
-             
-             <img src={ImageURl} style={{width:"150px",maxHeight:"150px" ,objectFit:"contain"}}/>
+          <Modal
+            show={modalopen}
+            onHide={handechange}
+            aria-labelledby="contained-modal-title-vcenter"
+            style={{ marginLeft: "10%" }}>
+            <ModalBody style={{ width: "fit-content" }}>
+              <img
+                src={ImageURl}
+                style={{
+                  width: "150px",
+                  maxHeight: "150px",
+                  objectFit: "contain",
+                }}
+              />
             </ModalBody>
           </Modal>
         </div>
@@ -312,4 +361,4 @@ const Cards = () => {
   );
 };
 
-export default Cards;
+export default Contacts;

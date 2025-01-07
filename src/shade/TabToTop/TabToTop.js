@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-
 const TabToTop = () => {
   const [BacktoTop, setBacktopTop] = useState("");
   useEffect(() => {
@@ -24,16 +23,15 @@ const TabToTop = () => {
         to="#"
         id="back-to-top"
         onClick={screenup}
-        className={`${BacktoTop}`}
-      >
+        className={`${BacktoTop}`}>
         <i className="las la-arrow-up"></i>
       </Link>
     </div>
   );
 };
 
-TabToTop.propTypes = {};
+// TabToTop.propTypes = {};
 
-TabToTop.defaultProps = {};
+// TabToTop.defaultProps = {};
 
 export default TabToTop;

@@ -12,37 +12,34 @@ const Editpost = () => {
   const router = useNavigate();
   const [data, Setdata] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
-  console.log("combinedData",combinedData)
-  const token = sessionStorage.getItem('token');
+  console.log("combinedData", combinedData);
+  const token = sessionStorage.getItem("token");
   useEffect(() => {
     getpostofAll();
   }, []);
 
   const getpostofAll = () => {
-
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + token);
-    
 
     var requestOptions = {
-     method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
-    fetch(APiURl+"postOfOfAll", requestOptions)
+    fetch(APiURl + "postOfOfAll", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-     
         const filterdata = result.result.filter((item) => item.totalposts > 0);
         Setdata(filterdata);
         const filterdataexport = filterdata.map((items) => {
-          const { firstname:name , totalposts: Posts } = items;
+          const { firstname: name, totalposts: Posts } = items;
 
-          return {name, Posts}
+          return { name, Posts };
         });
-        console.log("result",filterdata)
-        setCombinedData(filterdataexport)
+        console.log("result", filterdata);
+        setCombinedData(filterdataexport);
       })
       .catch((error) => console.log("error", error));
   };
@@ -77,8 +74,7 @@ const Editpost = () => {
             height: "40px",
             borderRadius: "50%",
             overflow: "hidden",
-          }}
-        >
+          }}>
           <img
             style={{
               width: "100%",
@@ -86,8 +82,8 @@ const Editpost = () => {
               objectFit: "cover",
             }}
             src={
-              row.profile_img != " "
-                ? Profile_img + row.profile_img
+              row?.profile_img != " "
+                ? Profile_img + row?.profile_img
                 : require("../../../assets/img/defalutavtar.jpg")
             }
             alt="Image"
@@ -98,7 +94,7 @@ const Editpost = () => {
 
     {
       name: "First Name",
-      selector: (row) => row.firstname,
+      selector: (row) => row?.firstname,
       sortable: true,
       wrap: true,
     },
@@ -123,8 +119,7 @@ const Editpost = () => {
             router("/ListPosts/ListPosts", {
               state: row.posts,
             });
-          }}
-        >
+          }}>
           {row.totalposts}{" "}
         </button>
       ),
@@ -176,8 +171,7 @@ const Editpost = () => {
   const CustomSwitch = ({ checked, onChange }) => (
     <div
       className={`custom-switch ${checked ? "active" : ""}`}
-      onClick={onChange}
-    >
+      onClick={onChange}>
       <div className={`switch-slider ${checked ? "active" : ""}`} />
     </div>
   );
@@ -204,21 +198,18 @@ const Editpost = () => {
             <div className="breadcrumb-header justify-content-between">
               <div className="left-content">
                 <span className="main-content-title mg-b-0 mg-b-lg-1">
-                Users Post
+                  Users Post
                 </span>
               </div>
               <div className="justify-content-center mt-2">
                 <Breadcrumb className="breadcrumb">
-                  <Breadcrumb.Item className="breadcrumb-item tx-15" href="#">
-                   
-                  </Breadcrumb.Item>
+                  <Breadcrumb.Item
+                    className="breadcrumb-item tx-15"
+                    href="#"></Breadcrumb.Item>
                   <Breadcrumb.Item
                     className="breadcrumb-item "
                     active
-                    aria-current="page"
-                  >
-                   
-                  </Breadcrumb.Item>
+                    aria-current="page"></Breadcrumb.Item>
                 </Breadcrumb>
               </div>
             </div>
@@ -261,8 +252,8 @@ const Editpost = () => {
   );
 };
 
-Editpost.propTypes = {};
+// Editpost.propTypes = {};
 
-Editpost.defaultProps = {};
+// Editpost.defaultProps = {};
 
 export default Editpost;

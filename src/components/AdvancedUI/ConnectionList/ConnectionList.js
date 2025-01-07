@@ -3,7 +3,7 @@ import { Breadcrumb, Card, Col, Row, Table, Button } from "react-bootstrap";
 //import './Cards.css';
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import "../../main.css"
+import "../../main.css";
 import Swal from "sweetalert2";
 import { APiURl } from "../../Services/ApiAddress";
 import { Profile_img } from "../../Services/ApiAddress";
@@ -15,8 +15,7 @@ const Blogdetails = () => {
   const data = location.state;
   const [combinedData, setCombinedData] = useState(data);
 
-
-  console.log(data)
+  console.log(data);
   const dateConverted = (date) => {
     const formatedDate = new Date(date);
     return formatedDate.toLocaleDateString();
@@ -39,7 +38,7 @@ const Blogdetails = () => {
       selector: (row) => row.profileID,
       sortable: true,
       wrap: true,
-     
+
       cell: (row) => (
         <div
           style={{
@@ -47,8 +46,7 @@ const Blogdetails = () => {
             height: "40px",
             borderRadius: "50%",
             overflow: "hidden",
-          }}
-        >
+          }}>
           <img
             style={{
               width: "100%",
@@ -56,8 +54,8 @@ const Blogdetails = () => {
               objectFit: "cover",
             }}
             src={
-              row.profile_img != " "
-                ? Profile_img + row.profile_img
+              row?.profile_img != " "
+                ? Profile_img + row?.profile_img
                 : require("../../../assets/img/defalutavtar.jpg")
             }
             alt="Image"
@@ -65,19 +63,13 @@ const Blogdetails = () => {
         </div>
       ),
     },
-    
+
     {
       name: "First Name",
-      selector: (row) => row.firstname,
+      selector: (row) => row?.firstname,
       sortable: true,
       wrap: true,
     },
-
-   
-    
-    
-      
-  
   ];
 
   function convertArrayOfObjectsToCSV(array) {
@@ -125,8 +117,7 @@ const Blogdetails = () => {
   const CustomSwitch = ({ checked, onChange }) => (
     <div
       className={`custom-switch ${checked ? "active" : ""}`}
-      onClick={onChange}
-    >
+      onClick={onChange}>
       <div className={`switch-slider ${checked ? "active" : ""}`} />
     </div>
   );
@@ -144,71 +135,70 @@ const Blogdetails = () => {
     () => <Export onExport={() => downloadCSV(combinedData)} />,
     [combinedData]
   );
- 
+
   return (
     <>
-     <>
-      <div style={{  }}>
-        <div className="main-container container-fluid">
-          <div className="breadcrumb-header justify-content-between">
-            <div className="left-content">
-              <span className="main-content-title mg-b-0 mg-b-lg-1">
-              Connection List
-              </span>
-            </div>
-            <div className="justify-content-center mt-2">
-              <Breadcrumb className="breadcrumb">
-                <Breadcrumb.Item className="breadcrumb-item tx-15" href="#">
-                  Connections
-                </Breadcrumb.Item>
-                <Breadcrumb.Item
-                  className="breadcrumb-item "
-                  active
-                  aria-current="page"
-                >
+      <>
+        <div style={{}}>
+          <div className="main-container container-fluid">
+            <div className="breadcrumb-header justify-content-between">
+              <div className="left-content">
+                <span className="main-content-title mg-b-0 mg-b-lg-1">
                   Connection List
-                </Breadcrumb.Item>
-              </Breadcrumb>
+                </span>
+              </div>
+              <div className="justify-content-center mt-2">
+                <Breadcrumb className="breadcrumb">
+                  <Breadcrumb.Item className="breadcrumb-item tx-15" href="#">
+                    Connections
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item
+                    className="breadcrumb-item "
+                    active
+                    aria-current="page">
+                    Connection List
+                  </Breadcrumb.Item>
+                </Breadcrumb>
+              </div>
             </div>
-          </div>
 
-          <Row className=" row-sm">
-            <Col lg={12}>
-              <Card className="custom-card">
-                <Card.Body>
-                  <div>
-                    <h6 className="main-content-label mb-1">
-                      {/* Sender Kyc Mangement */}
-                    </h6>
-                    {/* <p className="text-muted card-sub-title">
+            <Row className=" row-sm">
+              <Col lg={12}>
+                <Card className="custom-card">
+                  <Card.Body>
+                    <div>
+                      <h6 className="main-content-label mb-1">
+                        {/* Sender Kyc Mangement */}
+                      </h6>
+                      {/* <p className="text-muted card-sub-title">
                 Exporting data from a table can often be a key part of a
                 complex application. The Buttons extension for DataTables
                 provides three plug-ins that provide overlapping functionality
                 for data export:
               </p> */}
-                  </div>
-                  <div className="table-responsive fileexport pos-relative">
-                    <DataTableExtensions {...tableData}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        actions={actionsMemo}
-                        selectableRows
-                        pagination
-                        style={{ position: "relative" }}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+                    </div>
+                    <div className="table-responsive fileexport pos-relative">
+                      <DataTableExtensions {...tableData}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          actions={actionsMemo}
+                          selectableRows
+                          pagination
+                          style={{ position: "relative" }}
+                        />
+                      </DataTableExtensions>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
-    </>
+      </>
     </>
   );
-}
+};
 
 Blogdetails.propTypes = {};
 

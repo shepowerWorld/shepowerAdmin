@@ -60,13 +60,12 @@ function Alerts() {
   const [combinedData, setCombinedData] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
   useEffect(() => {
     getAll();
   }, []);
 
   const getAll = () => {
-
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + token);
 
@@ -80,17 +79,15 @@ function Alerts() {
       .then((response) => response.json())
       .then((result) => {
         Setdata(result.result);
-        console.log("result",result);
-        const filterdata = result.result.map((items)=>{
-          const {text} = items
+        console.log("result", result);
+        const filterdata = result.result.map((items) => {
+          const { text } = items;
 
-          return{
-            text
-          }
-        })
-
+          return {
+            text,
+          };
+        });
         setCombinedData(filterdata);
-      
       })
       .catch((error) => console.log("error", error));
   };
@@ -105,13 +102,12 @@ function Alerts() {
       redirect: "follow",
     };
 
-    fetch(APiURl+`deletePAP/${id}`, requestOptions)
+    fetch(APiURl + `deletePAP/${id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
-          getAll();
-          Primaryalert(result.message);
-        
+        getAll();
+        Primaryalert(result.message);
       })
       .catch((error) => console.log("error", error));
   };
@@ -153,8 +149,7 @@ function Alerts() {
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: "rgba(25,192,192,.2)",
-          }}
-        >
+          }}>
           Update
         </Button>
       ),
@@ -180,8 +175,7 @@ function Alerts() {
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: "rgba(243,67,67,.2)",
-          }}
-        >
+          }}>
           Delete
         </Button>
       ),
@@ -215,8 +209,7 @@ function Alerts() {
         <div className="main-container container-fluid">
           <div className="breadcrumb-header justify-content-between">
             <div className="left-content">
-              <span className="main-content-title mg-b-0 mg-b-lg-1">
-              </span>
+              <span className="main-content-title mg-b-0 mg-b-lg-1"></span>
             </div>
           </div>
 
@@ -228,8 +221,7 @@ function Alerts() {
                     width: "100% !important",
                     float: "right",
                     marginRight: "40px",
-                  }}
-                >
+                  }}>
                   <Button
                     variant=""
                     className="btn rounded btn-primary text-white"
@@ -243,10 +235,8 @@ function Alerts() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      background:
-                        "rgba(243,63,129,255)",
-                    }}
-                  >
+                      background: "rgba(243,63,129,255)",
+                    }}>
                     Add Privacy Policy
                   </Button>
                 </div>

@@ -1,130 +1,119 @@
-import React, { useContext } from "react";
-import { Navbar, Dropdown, Button, Form, Col, Row, Modal } from "react-bootstrap";
+import React, { useContext, useState, useEffect } from "react";
+import {
+  Navbar,
+  Dropdown,
+  Button,
+  Form,
+  Col,
+  Row,
+  Modal,
+} from "react-bootstrap";
 import { Scrollbars } from "react-custom-scrollbars";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { auth } from "../../Firebase/firebase";
-import { useDispatch, useSelector } from 'react-redux';
-import { Delete } from '../../redux/actions/action';
-import ProductService from '../../services/ProductService';
+import { useDispatch, useSelector } from "react-redux";
+import { Delete } from "../../redux/actions/action";
+import ProductService from "../../services/ProductService";
 import AuthContext from "../../Store/Auth-context";
 
 export default function Header() {
-  const [Lang, setLang] = React.useState(false);
-  function Fullscreen() {
-    if (
-      (document.fullScreenElement && document.fullScreenElement === null) ||
-      (!document.mozFullScreen && !document.webkitIsFullScreen)
-    ) {
-      if (document.documentElement.requestFullScreen) {
-        document.documentElement.requestFullScreen();
-      } else if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
-      } else if (document.documentElement.webkitRequestFullScreen) {
-        document.documentElement.webkitRequestFullScreen(
-          Element.ALLOW_KEYBOARD_INPUT
-        );
-      }
+  const [lang, setLang] = useState(false);
+  const [price, setPrice] = useState(0);
+  const [getdata, setData] = useState([]);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const ctx = useContext(AuthContext);
+
+  const getCartData = useSelector((state) => state.cartreducer.carts);
+
+  // Fullscreen toggle
+  const Fullscreen = () => {
+    const doc = document.documentElement;
+    if (!document.fullscreenElement) {
+      doc.requestFullscreen?.() ||
+        doc.mozRequestFullScreen?.() ||
+        doc.webkitRequestFullScreen?.(Element.ALLOW_KEYBOARD_INPUT);
     } else {
-      if (document.cancelFullScreen) {
-        document.cancelFullScreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitCancelFullScreen) {
-        document.webkitCancelFullScreen();
-      }
+      document.exitFullscreen?.() ||
+        document.mozCancelFullScreen?.() ||
+        document.webkitExitFullscreen?.();
     }
-  }
-
-
-  //leftsidemenu
-  const openCloseSidebar = () => {
-    document.querySelector("body").classList.toggle("sidenav-toggled");
   };
-  //rightsidebar
-  const Rightsidebar = () => {
-    document.querySelector(".sidebar-right").classList.add("sidebar-open");
-  };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  // Sidebar toggles
+  const openCloseSidebar = () =>
+    document.body.classList.toggle("sidenav-toggled");
+  const Rightsidebar = () =>
+    document.querySelector(".sidebar-right")?.classList.add("sidebar-open");
+
+  // Theme toggle
   const Darkmode = () => {
-    document.querySelector(".app").classList.toggle("dark-theme");
-    document.querySelector(".app").classList.remove("light-theme");
+    const app = document.querySelector(".app");
+    app.classList.toggle("dark-theme");
+    app.classList.remove("light-theme");
   };
 
-  // responsivesearch
-  const responsivesearch = () => {
-    document.querySelector(".navbar-form").classList.toggle("active");
+  // Responsive search toggle
+  const responsivesearch = () =>
+    document.querySelector(".navbar-form")?.classList.toggle("active");
+  const open = Boolean(anchorEl);
+  // Compare data by ID
+  const compareData = () => {
+    const filteredData = getCartData.filter((item) => item.id === id);
+    setData(filteredData);
   };
-  //swichermainright
+
+  // Calculate total price
+  const calculateTotal = () => {
+    const totalPrice = getCartData.reduce(
+      (sum, item) => sum + item.price * item.qnty,
+      0
+    );
+    setPrice(totalPrice);
+  };
   const swichermainright = () => {
     document.querySelector(".demo_changer").classList.toggle("active");
     document.querySelector(".demo_changer").style.right = "0px";
   };
-  const [price, setPrice] = React.useState(0);
-  // console.log(price);
+  // Delete item handler
+  // const handleDelete = (itemId) => dispatch(Delete(itemId));
+  const ondelete = (id) => {
+    dispatch(Delete(id));
+  };
 
-  let getdata = useSelector((state) => state.cartreducer.carts);
-
-
-  const dispatch = useDispatch();
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  // const routeChange = () => {
+  //   ctx.onLogout();
+  //   let path = ${process.env.PUBLIC_URL}/;
+  //   navigate(path);
+  // }
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     // console.log(open)
   };
-
-
-  const [Data, setData] = React.useState([]);
-
-  const { id } = useParams();
-
-  // console.log(getdata);
-
-  const compare = () => {
-    let comparedata = getdata.filter((e) => {
-      console.log(e, id)
-      return e.id === id
-    });
-    setData(comparedata);
-    console.log(comparedata, Data);
-
-  }
-
-  React.useEffect(() => {
-    compare();
-    // eslint-disable-next-line 
-  }, [id])
-  const ondelete = (id) => {
-    dispatch(Delete(id))
-  }
-
-
-  function total() {
-    let price = 0;
-    getdata.map((ele) => {
-      price = ele.price * ele.qnty + price
-      return price;
-    });
-    setPrice(price);
-  };
-
-  React.useEffect(() => {
-    total();
-  })
-
-  const ctx = useContext(AuthContext)
-  let navigate = useNavigate();
+  // Logout handler
   const routeChange = () => {
     ctx.onLogout();
-    let path = `${process.env.PUBLIC_URL}/`;
-    navigate(path);
-  }
+    navigate(`${process.env.PUBLIC_URL}/`);
+  };
+
+  // Effects
+  useEffect(() => {
+    compareData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, getCartData]);
+
+  useEffect(() => {
+    calculateTotal();
+  }, [getCartData]);
   return (
     <Navbar className="main-header side-header sticky nav nav-item">
       <div className="main-container container-fluid">
         <div className="main-header-left ">
           <div className="responsive-logo">
-            <Link to={`${process.env.PUBLIC_URL}/dashboard/dashboard-1`} className="header-logo">
+            <Link
+              to={`${process.env.PUBLIC_URL}/dashboard/dashboard-1`}
+              className="header-logo">
               <img
                 src={require("../../assets/img/brand/logo.png")}
                 className="mobile-logo logo-1"
@@ -140,8 +129,7 @@ export default function Header() {
           <div
             className="app-sidebar__toggle"
             data-bs-toggle="sidebar"
-            onClick={() => openCloseSidebar()}
-          >
+            onClick={() => openCloseSidebar()}>
             <Link className="open-toggle" to="#">
               <i className="header-icon fe fe-align-left"></i>
             </Link>
@@ -150,7 +138,9 @@ export default function Header() {
             </Link>
           </div>
           <div className="logo-horizontal">
-            <Link to={`${process.env.PUBLIC_URL}/dashboard/dashboard-1`} className="header-logo">
+            <Link
+              to={`${process.env.PUBLIC_URL}/dashboard/dashboard-1`}
+              className="header-logo">
               <img
                 src={require("../../assets/img/brand/logo.png")}
                 className="mobile-logo logo-1"
@@ -177,8 +167,7 @@ export default function Header() {
         <div className="main-header-right">
           <Navbar.Toggle
             className="navresponsive-toggler d-lg-none ms-auto"
-            type="button"
-          >
+            type="button">
             <span className="navbar-toggler-icon fe fe-more-vertical"></span>
           </Navbar.Toggle>
           <div className="mb-0 navbar navbar-expand-lg   navbar-nav-right responsive-navbar navbar-dark p-0">
@@ -204,18 +193,19 @@ export default function Header() {
                       </svg>
                     </Link> */}
                     <Modal
-                      show={Lang}
+                      show={lang}
                       onHide={() => setLang(false)}
                       centered="true"
-                      id="country-selector"
-                    >
+                      id="country-selector">
                       <Modal.Header>
                         <h6 className="modal-title">Choose Country</h6>
-                        <Button variant=""
+                        <Button
+                          variant=""
                           type="button"
-                          onClick={() => setLang(false)}
-                        >
-                          <span aria-hidden="true" className="text-dark">X</span>
+                          onClick={() => setLang(false)}>
+                          <span aria-hidden="true" className="text-dark">
+                            X
+                          </span>
                         </Button>
                       </Modal.Header>
                       <Modal.Body>
@@ -223,8 +213,7 @@ export default function Header() {
                           <Col lg={6} as="li" className="mb-2">
                             <Link
                               to="#"
-                              className="btn btn-country btn-lg btn-block active"
-                            >
+                              className="btn btn-country btn-lg btn-block active">
                               <span className="country-selector">
                                 <img
                                   alt=""
@@ -237,7 +226,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2 mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -251,7 +242,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -265,7 +258,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -279,7 +274,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -293,7 +290,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -307,7 +306,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -321,7 +322,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -335,7 +338,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -349,7 +354,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -363,7 +370,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -377,7 +386,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -391,7 +402,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -405,7 +418,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -419,7 +434,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -433,7 +450,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -447,7 +466,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -461,7 +482,9 @@ export default function Header() {
                           </Col>{" "}
                           <Col lg={6} as="li" className="mb-2">
                             {" "}
-                            <Link to="#" className="btn btn-country btn-lg btn-block">
+                            <Link
+                              to="#"
+                              className="btn btn-country btn-lg btn-block">
                               {" "}
                               <span className="country-selector">
                                 <img
@@ -482,16 +505,14 @@ export default function Header() {
                   <Link
                     to="#"
                     className="new nav-link theme-layout nav-link-bg layout-setting"
-                    onClick={() => Darkmode()}
-                  >
+                    onClick={() => Darkmode()}>
                     <span className="dark-layout">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="header-icon-svgs"
                         width="24"
                         height="24"
-                        viewBox="0 0 24 24"
-                      >
+                        viewBox="0 0 24 24">
                         <path d="M20.742 13.045a8.088 8.088 0 0 1-2.077.271c-2.135 0-4.14-.83-5.646-2.336a8.025 8.025 0 0 1-2.064-7.723A1 1 0 0 0 9.73 2.034a10.014 10.014 0 0 0-4.489 2.582c-3.898 3.898-3.898 10.243 0 14.143a9.937 9.937 0 0 0 7.072 2.93 9.93 9.93 0 0 0 7.07-2.929 10.007 10.007 0 0 0 2.583-4.491 1.001 1.001 0 0 0-1.224-1.224zm-2.772 4.301a7.947 7.947 0 0 1-5.656 2.343 7.953 7.953 0 0 1-5.658-2.344c-3.118-3.119-3.118-8.195 0-11.314a7.923 7.923 0 0 1 2.06-1.483 10.027 10.027 0 0 0 2.89 7.848 9.972 9.972 0 0 0 7.848 2.891 8.036 8.036 0 0 1-1.484 2.059z" />
                       </svg>
                     </span>
@@ -501,8 +522,7 @@ export default function Header() {
                         className="header-icon-svgs"
                         width="24"
                         height="24"
-                        viewBox="0 0 24 24"
-                      >
+                        viewBox="0 0 24 24">
                         <path d="M6.993 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007S14.761 6.993 12 6.993 6.993 9.239 6.993 12zM12 8.993c1.658 0 3.007 1.349 3.007 3.007S13.658 15.007 12 15.007 8.993 13.658 8.993 12 10.342 8.993 12 8.993zM10.998 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2h-3zm17 0h3v2h-3zM4.219 18.363l2.12-2.122 1.415 1.414-2.12 2.122zM16.24 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.342 7.759 4.22 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z" />
                       </svg>
                     </span>
@@ -550,52 +570,66 @@ export default function Header() {
                           Shopping Cart
                         </h6>
                         <span className="badge badge-pill bg-indigo ms-auto my-auto float-end">
-                          {
-                            getdata.length ? <>Items ({getdata.length})</> : <>Items (07)</>
-                          }
+                          {getdata.length ? (
+                            <>Items ({getdata.length})</>
+                          ) : (
+                            <>Items (07)</>
+                          )}
                         </span>
                       </div>
                     </div>
                     <div className="main-cart-list cart-scroll">
-                      {
-                        getdata.length ?
-                          <div>
-                            <Scrollbars style={{ height: "200px" }}>
-                              {
-                                getdata.map((item) => {
-                                  return (
-                                    <React.Fragment key={item.id}>
-
-                                      <div as="dropdown-item" open={open} onClick={handleClick} className="dropdown-item d-flex border-bottom main-cart-item">
-                                        {/* <Link to={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}> */}
-                                        <Link to={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`} open={open} onClick={ProductService.getidfronShop(item.id)}>
-                                          <img src={(item.src)} className="drop-img cover-image" alt="" />
-                                        </Link>
-                                        <div className="ms-3 text-start">
-                                          <p className="mb-1 text-muted tx-13">{item.name}</p>
-                                          <span className="text-dark tx-semibold tx-12">$ : {item.price}</span>
-                                          <p>Quantity : {item.qnty}</p>
-                                        </div>
-                                        <div className="ms-auto my-auto">
-                                          <div className="" onClick={() => ondelete(item.id)}>
-                                            <i className="fe fe-trash-2 text-end text-danger"></i>
-                                          </div>
-                                        </div>
-
+                      {getdata.length ? (
+                        <div>
+                          <Scrollbars style={{ height: "200px" }}>
+                            {getdata.map((item) => {
+                              return (
+                                <React.Fragment key={item.id}>
+                                  <div
+                                    as="dropdown-item"
+                                    open={open}
+                                    onClick={handleClick}
+                                    className="dropdown-item d-flex border-bottom main-cart-item">
+                                    {/* <Link to={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}> */}
+                                    <Link
+                                      to={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}
+                                      open={open}
+                                      onClick={ProductService.getidfronShop(
+                                        item.id
+                                      )}>
+                                      <img
+                                        src={item.src}
+                                        className="drop-img cover-image"
+                                        alt=""
+                                      />
+                                    </Link>
+                                    <div className="ms-3 text-start">
+                                      <p className="mb-1 text-muted tx-13">
+                                        {item.name}
+                                      </p>
+                                      <span className="text-dark tx-semibold tx-12">
+                                        $ : {item.price}
+                                      </span>
+                                      <p>Quantity : {item.qnty}</p>
+                                    </div>
+                                    <div className="ms-auto my-auto">
+                                      <div
+                                        className=""
+                                        onClick={() => ondelete(item.id)}>
+                                        <i className="fe fe-trash-2 text-end text-danger"></i>
                                       </div>
-
-                                    </React.Fragment>
-                                  )
-                                })
-                              }
-                            </Scrollbars>
-                          </div>
-                          :
-                          <><Dropdown.Item
+                                    </div>
+                                  </div>
+                                </React.Fragment>
+                              );
+                            })}
+                          </Scrollbars>
+                        </div>
+                      ) : (
+                        <>
+                          <Dropdown.Item
                             className="d-flex border-bottom  main-cart-item"
-                            href={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}
-                          >
-
+                            href={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}>
                             <img
                               className="drop-img cover-image"
                               src={require("../../assets/img/ecommerce/05.jpg")}
@@ -616,117 +650,112 @@ export default function Header() {
                               </div>
                             </div>
                           </Dropdown.Item>
-                            <Dropdown.Item
-                              className="d-flex border-bottom main-cart-item"
-                              href={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}
-                            >
-
-                              <img
-                                alt=""
-                                className="drop-img cover-image"
-                                src={require("../../assets/img/ecommerce/02.jpg")}
-                              />
-                              <div className="ms-3 text-start">
-                                <h5 className="mb-1 text-muted tx-13">
-                                  White Ear Buds
-                                </h5>
-                                <div className="text-dark tx-semibold tx-12">
-                                  3 * $ 59.00
-                                </div>
+                          <Dropdown.Item
+                            className="d-flex border-bottom main-cart-item"
+                            href={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}>
+                            <img
+                              alt=""
+                              className="drop-img cover-image"
+                              src={require("../../assets/img/ecommerce/02.jpg")}
+                            />
+                            <div className="ms-3 text-start">
+                              <h5 className="mb-1 text-muted tx-13">
+                                White Ear Buds
+                              </h5>
+                              <div className="text-dark tx-semibold tx-12">
+                                3 * $ 59.00
                               </div>
+                            </div>
 
+                            <div className="ms-auto my-auto">
+                              <div className="">
+                                <i className="fe fe-trash-2 text-end text-danger"></i>
+                              </div>
+                            </div>
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            className="d-flex border-bottom main-cart-item"
+                            href={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}>
+                            <img
+                              alt=""
+                              className="drop-img cover-image"
+                              src={require("../../assets/img/ecommerce/12.jpg")}
+                            />
+                            <div className="ms-3 text-start">
+                              <h5 className="mb-1 text-muted tx-13">
+                                Branded Black Headset
+                              </h5>
+                              <div className="text-dark tx-semibold tx-12">
+                                2 * $ 39.99
+                              </div>
+                            </div>
+                            <div className="ms-auto my-auto">
+                              <div className="">
+                                <i className="fe fe-trash-2 text-end text-danger"></i>
+                              </div>
+                            </div>
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            className="d-flex border-bottom main-cart-item"
+                            href={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}>
+                            <img
+                              alt=""
+                              className="drop-img cover-image"
+                              src={require("../../assets/img/ecommerce/06.jpg")}
+                            />
+                            <div className="ms-3 text-start">
+                              <h5 className="mb-1 text-muted tx-13">
+                                Glass Decor Item
+                              </h5>
+                              <div className="text-dark tx-semibold tx-12">
+                                5 * $ 5.99
+                              </div>
+                            </div>
 
-                              <div className="ms-auto my-auto">
-                                <div className="">
-                                  <i className="fe fe-trash-2 text-end text-danger"></i>
-                                </div>
+                            <div className="ms-auto my-auto">
+                              <div className="">
+                                <i className="fe fe-trash-2 text-end text-danger"></i>
                               </div>
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              className="d-flex border-bottom main-cart-item"
-                              href={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}
-                            >
+                            </div>
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            className="d-flex border-bottom main-cart-item"
+                            href={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}>
+                            <img
+                              className="drop-img cover-image"
+                              src={require("../../assets/img/ecommerce/04.jpg")}
+                              alt=""
+                            />
 
-                              <img
-                                alt=""
-                                className="drop-img cover-image"
-                                src={require("../../assets/img/ecommerce/12.jpg")}
-                              />
-                              <div className="ms-3 text-start">
-                                <h5 className="mb-1 text-muted tx-13">
-                                  Branded Black Headset
-                                </h5>
-                                <div className="text-dark tx-semibold tx-12">
-                                  2 * $ 39.99
-                                </div>
+                            <div className="ms-3 text-start">
+                              <h5 className="mb-1 text-muted tx-13">
+                                Pink Teddy Bear
+                              </h5>
+                              <div className="text-dark tx-semibold tx-12">
+                                1 * $ 10.00
                               </div>
-                              <div className="ms-auto my-auto">
-                                <div className="">
-                                  <i className="fe fe-trash-2 text-end text-danger"></i>
-                                </div>
+                            </div>
+                            <div className="ms-auto my-auto">
+                              <div className="">
+                                <i className="fe fe-trash-2 text-end text-danger"></i>
                               </div>
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              className="d-flex border-bottom main-cart-item"
-                              href={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}
-                            >
-
-                              <img
-                                alt=""
-                                className="drop-img cover-image"
-                                src={require("../../assets/img/ecommerce/06.jpg")}
-                              />
-                              <div className="ms-3 text-start">
-                                <h5 className="mb-1 text-muted tx-13">
-                                  Glass Decor Item
-                                </h5>
-                                <div className="text-dark tx-semibold tx-12">
-                                  5 * $ 5.99
-                                </div>
-                              </div>
-
-                              <div className="ms-auto my-auto">
-                                <div className="">
-                                  <i className="fe fe-trash-2 text-end text-danger"></i>
-                                </div>
-                              </div>
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              className="d-flex border-bottom main-cart-item"
-                              href={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}
-                            >
-
-                              <img
-                                className="drop-img cover-image"
-                                src={require("../../assets/img/ecommerce/04.jpg")}
-                                alt=""
-                              />
-
-                              <div className="ms-3 text-start">
-                                <h5 className="mb-1 text-muted tx-13">
-                                  Pink Teddy Bear
-                                </h5>
-                                <div className="text-dark tx-semibold tx-12">
-                                  1 * $ 10.00
-                                </div>
-                              </div>
-                              <div className="ms-auto my-auto">
-                                <div className="">
-                                  <i className="fe fe-trash-2 text-end text-danger"></i>
-                                </div>
-                              </div>
-                            </Dropdown.Item> </>
-                      }
+                            </div>
+                          </Dropdown.Item>{" "}
+                        </>
+                      )}
                     </div>
                     <div className="dropdown-footer text-start">
                       <Link
                         className="btn btn-primary btn-sm btn-w-md"
-                        to={`${process.env.PUBLIC_URL}/pages/e-commerce/checkout`}
-                      >
+                        to={`${process.env.PUBLIC_URL}/pages/e-commerce/checkout`}>
                         Checkout
                       </Link>
                       <span className="float-end mt-1 tx-semibold">
-                        {getdata.length ? <>Sub Total: $ {price}</> : <> Sub Total : $ 00.00</>}
+                        {getdata.length ? (
+                          <>Sub Total: $ {price}</>
+                        ) : (
+                          <> Sub Total : $ 00.00</>
+                        )}
                       </span>
                     </div>
                   </Dropdown.Menu>
@@ -762,8 +791,7 @@ export default function Header() {
                       <div className="main-message-list chat-scroll">
                         <Dropdown.Item
                           href={`${process.env.PUBLIC_URL}/pages/mail/chat`}
-                          className="dropdown-item d-flex border-bottom"
-                        >
+                          className="dropdown-item d-flex border-bottom">
                           <img
                             className="  drop-img  cover-image  "
                             alt=""
@@ -786,8 +814,7 @@ export default function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           href={`${process.env.PUBLIC_URL}/pages/mail/chat`}
-                          className="dropdown-item d-flex border-bottom"
-                        >
+                          className="dropdown-item d-flex border-bottom">
                           <img
                             className="drop-img cover-image"
                             alt=""
@@ -809,8 +836,7 @@ export default function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           href={`${process.env.PUBLIC_URL}/pages/mail/chat`}
-                          className="dropdown-item d-flex border-bottom"
-                        >
+                          className="dropdown-item d-flex border-bottom">
                           <img
                             className="drop-img cover-image"
                             alt=""
@@ -832,8 +858,7 @@ export default function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           href={`${process.env.PUBLIC_URL}/pages/mail/chat`}
-                          className="dropdown-item d-flex border-bottom"
-                        >
+                          className="dropdown-item d-flex border-bottom">
                           <img
                             className="drop-img cover-image"
                             alt=""
@@ -854,8 +879,7 @@ export default function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           href={`${process.env.PUBLIC_URL}/pages/mail/chat`}
-                          className="dropdown-item d-flex border-bottom"
-                        >
+                          className="dropdown-item d-flex border-bottom">
                           <img
                             className="drop-img cover-image"
                             alt=""
@@ -880,8 +904,7 @@ export default function Header() {
                     <div className="text-center dropdown-footer">
                       <Link
                         className="btn btn-primary btn-sm btn-block text-center"
-                        to={`${process.env.PUBLIC_URL}/pages/mail/chat`}
-                      >
+                        to={`${process.env.PUBLIC_URL}/pages/mail/chat`}>
                         VIEW ALL
                       </Link>
                     </div>
@@ -918,8 +941,7 @@ export default function Header() {
                       <div className="main-notification-list Notification-scroll">
                         <Dropdown.Item
                           className="d-flex p-3 border-bottom"
-                          href={`${process.env.PUBLIC_URL}/pages/mail/mail`}
-                        >
+                          href={`${process.env.PUBLIC_URL}/pages/mail/mail`}>
                           <div className="notifyimg bg-pink">
                             <i className="far fa-folder-open text-white"></i>
                           </div>
@@ -937,8 +959,7 @@ export default function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           className="d-flex p-3  border-bottom"
-                          href={`${process.env.PUBLIC_URL}/pages/mail/mail`}
-                        >
+                          href={`${process.env.PUBLIC_URL}/pages/mail/mail`}>
                           <div className="notifyimg bg-purple">
                             <i className="fab fa-delicious text-white"></i>
                           </div>
@@ -956,8 +977,7 @@ export default function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           className="d-flex p-3 border-bottom"
-                          href={`${process.env.PUBLIC_URL}/pages/mail/mail`}
-                        >
+                          href={`${process.env.PUBLIC_URL}/pages/mail/mail`}>
                           <div className="notifyimg bg-success">
                             <i className="fa fa-cart-plus text-white"></i>
                           </div>
@@ -975,8 +995,7 @@ export default function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           className="d-flex p-3 border-bottom"
-                          href={`${process.env.PUBLIC_URL}/pages/mail/mail`}
-                        >
+                          href={`${process.env.PUBLIC_URL}/pages/mail/mail`}>
                           <div className="notifyimg bg-warning">
                             <i className="far fa-envelope-open text-white"></i>
                           </div>
@@ -994,8 +1013,7 @@ export default function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           className="d-flex p-3 border-bottom"
-                          href={`${process.env.PUBLIC_URL}/pages/mail/mail`}
-                        >
+                          href={`${process.env.PUBLIC_URL}/pages/mail/mail`}>
                           <div className="notifyimg bg-danger">
                             <i className="fab fa-wpforms text-white"></i>
                           </div>
@@ -1013,8 +1031,7 @@ export default function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           className="d-flex p-3 border-bottom"
-                          href={`${process.env.PUBLIC_URL}/pages/mail/mail`}
-                        >
+                          href={`${process.env.PUBLIC_URL}/pages/mail/mail`}>
                           <div className="">
                             <i className="far fa-check-square text-white notifyimg bg-success"></i>
                           </div>
@@ -1035,8 +1052,7 @@ export default function Header() {
                     <div className="dropdown-footer">
                       <Link
                         className="btn btn-primary btn-sm btn-block"
-                        to={`${process.env.PUBLIC_URL}/pages/mail/mail`}
-                      >
+                        to={`${process.env.PUBLIC_URL}/pages/mail/mail`}>
                         VIEW ALL
                       </Link>
                     </div>
@@ -1044,16 +1060,14 @@ export default function Header() {
                 </Dropdown>
                 <li
                   className="nav-item full-screen fullscreen-button"
-                  onClick={Fullscreen}
-                >
+                  onClick={Fullscreen}>
                   <Link className="new nav-link full-screen-link" to="#">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="header-icon-svgs"
                       width="24"
                       height="24"
-                      viewBox="0 0 24 24"
-                    >
+                      viewBox="0 0 24 24">
                       <path d="M5 5h5V3H3v7h2zm5 14H5v-5H3v7h7zm11-5h-2v5h-5v2h7zm-2-4h2V3h-7v2h5z" />
                     </svg>
                   </Link>
@@ -1083,8 +1097,7 @@ export default function Header() {
                   <Form
                     className="navbar-form"
                     role="search"
-                    onClick={() => responsivesearch()}
-                  >
+                    onClick={() => responsivesearch()}>
                     <div className="input-group">
                       <input
                         type="text"
@@ -1095,22 +1108,19 @@ export default function Header() {
                         <Button
                           variant=""
                           type="reset"
-                          className="btn btn-default"
-                        >
+                          className="btn btn-default">
                           <i className="fas fa-times"></i>
                         </Button>
                         <Button
                           variant=""
-                          className="btn btn-default nav-link resp-btn"
-                        >
+                          className="btn btn-default nav-link resp-btn">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             height="24px"
                             className="header-icon-svgs"
                             viewBox="0 0 24 24"
                             width="24px"
-                            fill="#000000"
-                          >
+                            fill="#000000">
                             <path d="M0 0h24v24H0V0z" fill="none" />
                             <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
                           </svg>
@@ -1122,9 +1132,7 @@ export default function Header() {
                 <Dropdown className=" main-profile-menu nav nav-item nav-link ps-lg-2">
                   <Dropdown.Toggle
                     className="new nav-link profile-user d-flex"
-
-                    variant=""
-                  >
+                    variant="">
                     <img
                       alt=""
                       src={require("../../assets/img/defalutavtar.jpg")}
@@ -1145,12 +1153,17 @@ export default function Header() {
                           <h6 className="tx-15 font-weight-semibold mb-0">
                             Admin
                           </h6>
-                         
                         </div>
                       </div>
                     </div>
-                    
-                    <Dropdown.Item className="dropdown-item" onClick={() => { auth.signOut(); sessionStorage.clear(); routeChange() ; }} >
+
+                    <Dropdown.Item
+                      className="dropdown-item"
+                      onClick={() => {
+                        auth.signOut();
+                        sessionStorage.clear();
+                        routeChange();
+                      }}>
                       <i className="far fa-arrow-alt-circle-left"></i> Sign Out
                     </Dropdown.Item>
                   </Dropdown.Menu>
@@ -1162,15 +1175,13 @@ export default function Header() {
             <Link
               className="demo-icon new nav-link"
               to="#"
-              onClick={() => swichermainright()}
-            >
+              onClick={() => swichermainright()}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="header-icon-svgs fa-spin"
                 width="24"
                 height="24"
-                viewBox="0 0 24 24"
-              >
+                viewBox="0 0 24 24">
                 <path d="M12 16c2.206 0 4-1.794 4-4s-1.794-4-4-4-4 1.794-4 4 1.794 4 4 4zm0-6c1.084 0 2 .916 2 2s-.916 2-2 2-2-.916-2-2 .916-2 2-2z" />
                 <path d="m2.845 16.136 1 1.73c.531.917 1.809 1.261 2.73.73l.529-.306A8.1 8.1 0 0 0 9 19.402V20c0 1.103.897 2 2 2h2c1.103 0 2-.897 2-2v-.598a8.132 8.132 0 0 0 1.896-1.111l.529.306c.923.53 2.198.188 2.731-.731l.999-1.729a2.001 2.001 0 0 0-.731-2.732l-.505-.292a7.718 7.718 0 0 0 0-2.224l.505-.292a2.002 2.002 0 0 0 .731-2.732l-.999-1.729c-.531-.92-1.808-1.265-2.731-.732l-.529.306A8.1 8.1 0 0 0 15 4.598V4c0-1.103-.897-2-2-2h-2c-1.103 0-2 .897-2 2v.598a8.132 8.132 0 0 0-1.896 1.111l-.529-.306c-.924-.531-2.2-.187-2.731.732l-.999 1.729a2.001 2.001 0 0 0 .731 2.732l.505.292a7.683 7.683 0 0 0 0 2.223l-.505.292a2.003 2.003 0 0 0-.731 2.733zm3.326-2.758A5.703 5.703 0 0 1 6 12c0-.462.058-.926.17-1.378a.999.999 0 0 0-.47-1.108l-1.123-.65.998-1.729 1.145.662a.997.997 0 0 0 1.188-.142 6.071 6.071 0 0 1 2.384-1.399A1 1 0 0 0 11 5.3V4h2v1.3a1 1 0 0 0 .708.956 6.083 6.083 0 0 1 2.384 1.399.999.999 0 0 0 1.188.142l1.144-.661 1 1.729-1.124.649a1 1 0 0 0-.47 1.108c.112.452.17.916.17 1.378 0 .461-.058.925-.171 1.378a1 1 0 0 0 .471 1.108l1.123.649-.998 1.729-1.145-.661a.996.996 0 0 0-1.188.142 6.071 6.071 0 0 1-2.384 1.399A1 1 0 0 0 13 18.7l.002 1.3H11v-1.3a1 1 0 0 0-.708-.956 6.083 6.083 0 0 1-2.384-1.399.992.992 0 0 0-1.188-.141l-1.144.662-1-1.729 1.124-.651a1 1 0 0 0 .471-1.108z" />
               </svg>
@@ -1182,6 +1193,6 @@ export default function Header() {
   );
 }
 
-Header.propTypes = {};
+// Header.propTypes = {};
 
-Header.defaultProps = {};
+// Header.defaultProps = {};

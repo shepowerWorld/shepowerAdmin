@@ -11,36 +11,36 @@ import {
 import Swal from "sweetalert2";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import "../../main.css"
+import "../../main.css";
 import { Profile_img } from "../../Services/ApiAddress";
 import { useLocation } from "react-router-dom";
 const Calendar = () => {
   const states = useLocation();
-  const data = states.state
+  const data = states.state;
   const [combinedData, setCombinedData] = useState([]);
   function convertArrayOfObjectsToCSV(array) {
     let result;
-  
+
     const columnDelimiter = ",";
     const lineDelimiter = "\n";
     const keys = Object.keys(array[0]);
-  
+
     result = "";
     result += keys.join(columnDelimiter);
     result += lineDelimiter;
-  
+
     array.forEach((item) => {
       let ctr = 0;
       keys.forEach((key) => {
         if (ctr > 0) result += columnDelimiter;
-  
+
         result += item[key];
-  
+
         ctr++;
       });
       result += lineDelimiter;
     });
-  
+
     return result;
   }
 
@@ -48,13 +48,13 @@ const Calendar = () => {
     const link = document.createElement("a");
     let csv = convertArrayOfObjectsToCSV(array);
     if (csv == null) return;
-  
+
     const filename = "export.csv";
-  
+
     if (!csv.match(/^data:text\/csv/i)) {
       csv = `data:text/csv;charset=utf-8,${csv}`;
     }
-  
+
     link.setAttribute("href", encodeURI(csv));
     link.setAttribute("download", filename);
     link.click();
@@ -63,43 +63,44 @@ const Calendar = () => {
   const CustomSwitch = ({ checked, onChange }) => (
     <div
       className={`custom-switch ${checked ? "active" : ""}`}
-      onClick={onChange}
-    >
+      onClick={onChange}>
       <div className={`switch-slider ${checked ? "active" : ""}`} />
     </div>
   );
   const columns = [
     {
       name: "Profile picture",
-      selector: (row) => row.profile_img,
+      selector: (row) => row?.profile_img,
       sortable: true,
       cell: (row) => (
         <Button
           variant=""
           type="button"
-          // onClick={() => handleImageClick(row.profile_img)}
+          // onClick={() => handleImageClick(row?.profile_img)}
           style={{
-            height: '30px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+            height: "30px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
           <div
             style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              overflow: 'hidden',
-            }}
-          >
+              width: "40px",
+              height: "40px",
+              borderRadius: "50%",
+              overflow: "hidden",
+            }}>
             <img
               style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
               }}
-              src= {row.profile_img ? Profile_img + row.profile_img : require('../../../assets/img/defalutavtar.jpg') }
+              src={
+                row?.profile_img
+                  ? Profile_img + row?.profile_img
+                  : require("../../../assets/img/defalutavtar.jpg")
+              }
               alt="Image"
             />
           </div>
@@ -109,11 +110,10 @@ const Calendar = () => {
 
     {
       name: "Name",
-      selector: (row) => row.firstname      ,
+      selector: (row) => row?.firstname,
       sortable: true,
       wrap: true,
     },
-  
 
     {
       name: "Mobile",
@@ -121,15 +121,8 @@ const Calendar = () => {
       sortable: true,
       wrap: true,
     },
-
-  
-
-  
-    
   ];
 
-
-  
   const tableData = {
     columns,
     data,
@@ -144,26 +137,26 @@ const Calendar = () => {
     [combinedData]
   );
 
-  return <>
-  <div >
+  return (
+    <>
+      <div>
         <div className="main-container container-fluid">
           <div className="breadcrumb-header justify-content-between">
             <div className="left-content">
               <span className="main-content-title mg-b-0 mg-b-lg-1">
-              No of Participants Joined
+                No of Participants Joined
               </span>
             </div>
             <div className="justify-content-center mt-2">
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item className="breadcrumb-item tx-15" href="#">
-               Group Management
+                  Group Management
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item "
                   active
-                  aria-current="page"
-                >
-                 No of Participants Joined
+                  aria-current="page">
+                  No of Participants Joined
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -195,15 +188,15 @@ const Calendar = () => {
                         style={{ position: "relative" }}
                       />
                     </DataTableExtensions>
-
-                    
                   </div>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
         </div>
-      </div></>;
+      </div>
+    </>
+  );
 };
 
 export default Calendar;

@@ -1,230 +1,220 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { Button, Row } from "react-bootstrap";
 import { Scrollbars } from "react-custom-scrollbars";
-import * as Switcherdata from'../../data/Switcherdata/Switcherdata';
+import * as Switcherdata from "../../data/Switcherdata/Switcherdata";
 import { Link } from "react-router-dom";
 
 export default function Switcher() {
-	  useEffect(() => {
-      Switcherdata.localStorageBackUp();
-    });
-    function changePrimaryColor() {
-      var userColor = document.getElementById("colorID").value;
-      localStorage.setItem("nowaPrimaryColor", userColor);
-      // to store value as opacity 0.95 we use 95
-      localStorage.setItem("nowaprimaryHoverColor", userColor + 95);
-      localStorage.setItem("nowaprimaryBorderColor", userColor);
-      localStorage.setItem("nowaprimaryTransparent", userColor + 20);
+  useEffect(() => {
+    Switcherdata.localStorageBackUp();
+  });
+  function changePrimaryColor() {
+    var userColor = document.getElementById("colorID").value;
+    localStorage.setItem("nowaPrimaryColor", userColor);
+    // to store value as opacity 0.95 we use 95
+    localStorage.setItem("nowaprimaryHoverColor", userColor + 95);
+    localStorage.setItem("nowaprimaryBorderColor", userColor);
+    localStorage.setItem("nowaprimaryTransparent", userColor + 20);
 
-      const dynamicPrimaryLight = document.querySelectorAll(
-        "input.color-primary-light"
-      );
+    const dynamicPrimaryLight = document.querySelectorAll(
+      "input.color-primary-light"
+    );
 
-      Switcherdata.dynamicLightPrimaryColor(dynamicPrimaryLight, userColor);
+    Switcherdata.dynamicLightPrimaryColor(dynamicPrimaryLight, userColor);
 
-      document.getElementById("myonoffswitch1").checked = true;
-      document.getElementById("myonoffswitch3").checked = true;
-      document.getElementById("myonoffswitch6").checked = true;
+    document.getElementById("myonoffswitch1").checked = true;
+    document.getElementById("myonoffswitch3").checked = true;
+    document.getElementById("myonoffswitch6").checked = true;
 
-      // Adding
-      document.querySelector("body")?.classList.add("light-theme");
+    // Adding
+    document.querySelector("body")?.classList.add("light-theme");
 
-      // Removing
-      document.querySelector("body")?.classList.remove("dark-theme");
-      document.querySelector("body")?.classList.remove("transparent-theme");
-      document.querySelector("body")?.classList.remove("bg-img1");
-      document.querySelector("body")?.classList.remove("bg-img2");
-      document.querySelector("body")?.classList.remove("bg-img3");
-      document.querySelector("body")?.classList.remove("bg-img4");
+    // Removing
+    document.querySelector("body")?.classList.remove("dark-theme");
+    document.querySelector("body")?.classList.remove("transparent-theme");
+    document.querySelector("body")?.classList.remove("bg-img1");
+    document.querySelector("body")?.classList.remove("bg-img2");
+    document.querySelector("body")?.classList.remove("bg-img3");
+    document.querySelector("body")?.classList.remove("bg-img4");
 
-      localStorage.removeItem("nowadarkPrimaryColor");
-      localStorage.removeItem("nowatransparentPrimaryColor");
-      localStorage.removeItem("nowatransparentBgColor");
-      localStorage.removeItem("nowatransparent-bgImgPrimaryColor");
-      localStorage.removeItem("nowaBgImage");
+    localStorage.removeItem("nowadarkPrimaryColor");
+    localStorage.removeItem("nowatransparentPrimaryColor");
+    localStorage.removeItem("nowatransparentBgColor");
+    localStorage.removeItem("nowatransparent-bgImgPrimaryColor");
+    localStorage.removeItem("nowaBgImage");
 
-      Switcherdata.name();
+    Switcherdata.name();
+  }
+  function darkPrimaryColor() {
+    var userColor = document.getElementById("darkPrimaryColorID").value;
+    localStorage.setItem("nowadarkPrimaryColor", userColor);
+    localStorage.setItem("nowaprimaryHoverColor", userColor + 95);
+    localStorage.setItem("nowaprimaryBorderColor", userColor);
+    localStorage.setItem("nowaprimaryTransparent", userColor + 20);
+    const dynamicPrimaryDark = document.querySelectorAll(
+      "input.color-primary-dark"
+    );
+
+    Switcherdata.dynamicDarkPrimaryColor(dynamicPrimaryDark, userColor);
+
+    document.getElementById("myonoffswitch2").checked = true;
+    document.getElementById("myonoffswitch5").checked = true;
+    document.getElementById("myonoffswitch8").checked = true;
+    // Adding
+    document.querySelector("body")?.classList.add("dark-theme");
+
+    // Removing
+    document.querySelector("body")?.classList.remove("light-theme");
+    document.querySelector("body")?.classList.remove("transparent-theme");
+    document.querySelector("body")?.classList.remove("bg-img1");
+    document.querySelector("body")?.classList.remove("bg-img2");
+    document.querySelector("body")?.classList.remove("bg-img3");
+    document.querySelector("body")?.classList.remove("bg-img4");
+
+    localStorage.removeItem("nowaPrimaryColor");
+    localStorage.removeItem("nowaprimaryHoverColor");
+    localStorage.removeItem("nowaprimaryBorderColor");
+    localStorage.removeItem("nowaprimaryTransparent");
+    localStorage.removeItem("nowatransparentPrimaryColor");
+    localStorage.removeItem("nowatransparentBgColor");
+    localStorage.removeItem("nowatransparent-bgImgPrimaryColor");
+    localStorage.removeItem("nowaBgImage");
+
+    Switcherdata.name();
+  }
+  function transparentPrimaryColor() {
+    var userColor = document.getElementById("transparentPrimaryColorID").value;
+
+    localStorage.setItem("nowatransparentPrimaryColor", userColor);
+    localStorage.setItem("nowaprimaryHoverColor", userColor + 95);
+    localStorage.setItem("nowaprimaryBorderColor", userColor);
+    localStorage.setItem("nowaprimaryTransparent", userColor + 20);
+    const PrimaryTransparent = document.querySelectorAll(
+      "input.color-primary-transparent"
+    );
+
+    Switcherdata.dynamicTransparentPrimaryColor(PrimaryTransparent, userColor);
+
+    document.getElementById("myonoffswitchTransparent").checked = true;
+
+    // Adding
+    document.querySelector("body")?.classList.add("transparent-theme");
+
+    // Removing
+    document.querySelector("body")?.classList.remove("light-theme");
+    document.querySelector("body")?.classList.remove("dark-theme");
+    document.querySelector("body")?.classList.remove("bg-img1");
+    document.querySelector("body")?.classList.remove("bg-img2");
+    document.querySelector("body")?.classList.remove("bg-img3");
+    document.querySelector("body")?.classList.remove("bg-img4");
+
+    localStorage.removeItem("nowaPrimaryColor");
+    localStorage.removeItem("nowaprimaryHoverColor");
+    localStorage.removeItem("nowaprimaryBorderColor");
+    localStorage.removeItem("nowaprimaryTransparent");
+    localStorage.removeItem("nowadarkPrimaryColor");
+    localStorage.removeItem("nowatransparent-bgImgPrimaryColor");
+    localStorage.removeItem("nowaBgImage");
+
+    Switcherdata.name();
+  }
+  function BgTransparentBackground() {
+    var userColor = document.getElementById("transparentBgColorID").value;
+
+    localStorage.setItem("nowatransparentBgColor", userColor);
+
+    const dynamicBackgroundColor = document.querySelectorAll(
+      "input.color-bg-transparent"
+    );
+
+    Switcherdata.dynamicBgTransparentBackground(
+      dynamicBackgroundColor,
+      userColor
+    );
+
+    document.getElementById("myonoffswitchTransparent").checked = true;
+
+    // Adding
+    document.querySelector("body")?.classList.add("transparent-theme");
+
+    // Removing
+    document.querySelector("body")?.classList.remove("light-theme");
+    document.querySelector("body")?.classList.remove("dark-theme");
+    document.querySelector("body")?.classList.remove("bg-img1");
+    document.querySelector("body")?.classList.remove("bg-img2");
+    document.querySelector("body")?.classList.remove("bg-img3");
+    document.querySelector("body")?.classList.remove("bg-img4");
+    document.querySelector("body")?.classList.remove("light-header");
+    document.querySelector("body")?.classList.remove("color-header");
+    document.querySelector("body")?.classList.remove("dark-header");
+    document.querySelector("body")?.classList.remove("gradient-header");
+    document.querySelector("body")?.classList.remove("light-menu");
+    document.querySelector("body")?.classList.remove("color-menu");
+    document.querySelector("body")?.classList.remove("dark-menu");
+    document.querySelector("body")?.classList.remove("gradient-menu");
+    localStorage.removeItem("nowaPrimaryColor");
+    localStorage.removeItem("nowaprimaryHoverColor");
+    localStorage.removeItem("nowaprimaryBorderColor");
+    localStorage.removeItem("nowaprimaryTransparent");
+    localStorage.removeItem("nowadarkPrimaryColor");
+    localStorage.removeItem("nowatransparent-bgImgPrimaryColor");
+    localStorage.removeItem("nowaBgImage");
+
+    Switcherdata.name();
+  }
+  function BgImgTransparentPrimaryColor() {
+    var userColor = document.getElementById(
+      "transparentBgImgPrimaryColorID"
+    ).value;
+
+    localStorage.setItem("nowatransparent-bgImgPrimaryColor", userColor);
+
+    const dynamicPrimaryImgTransparent = document.querySelectorAll(
+      "input.color-primary-transparent"
+    );
+
+    Switcherdata.dynamicBgImgTransparentPrimaryColor(
+      dynamicPrimaryImgTransparent,
+      userColor
+    );
+    // console.log(dynamicPrimaryImgTransparent);
+    document.getElementById("myonoffswitchTransparent").checked = true;
+
+    // Adding
+    document.querySelector("body")?.classList.add("transparent-theme");
+
+    // Removing
+    document.querySelector("body")?.classList.remove("light-theme");
+    document.querySelector("body")?.classList.remove("dark-theme");
+    document.querySelector("body")?.classList.remove("light-header");
+    document.querySelector("body")?.classList.remove("color-header");
+    document.querySelector("body")?.classList.remove("dark-header");
+    document.querySelector("body")?.classList.remove("gradient-header");
+    document.querySelector("body")?.classList.remove("light-menu");
+    document.querySelector("body")?.classList.remove("color-menu");
+    document.querySelector("body")?.classList.remove("dark-menu");
+    document.querySelector("body")?.classList.remove("gradient-menu");
+    localStorage.removeItem("nowaPrimaryColor");
+    localStorage.removeItem("nowaprimaryHoverColor");
+    localStorage.removeItem("nowaprimaryBorderColor");
+    localStorage.removeItem("nowaprimaryTransparent");
+    localStorage.removeItem("nowadarkPrimaryColor");
+    localStorage.removeItem("nowatransparentPrimaryColor");
+    localStorage.removeItem("nowatransparentBgColor");
+
+    document.querySelector("html").style.removeProperty("--transparent-body");
+
+    if (
+      document.querySelector("body")?.classList.contains("bg-img1") === false &&
+      document.querySelector("body")?.classList.contains("bg-img2") === false &&
+      document.querySelector("body")?.classList.contains("bg-img3") === false &&
+      document.querySelector("body")?.classList.contains("bg-img4") === false
+    ) {
+      document.querySelector("body")?.classList.add("bg-img1");
+      localStorage.setItem("nowaBgImage", "bg-img1");
     }
-    function darkPrimaryColor() {
-      var userColor = document.getElementById("darkPrimaryColorID").value;
-      localStorage.setItem("nowadarkPrimaryColor", userColor);
-      localStorage.setItem("nowaprimaryHoverColor", userColor + 95);
-      localStorage.setItem("nowaprimaryBorderColor", userColor);
-      localStorage.setItem("nowaprimaryTransparent", userColor + 20);
-      const dynamicPrimaryDark = document.querySelectorAll(
-        "input.color-primary-dark"
-      );
-
-      Switcherdata.dynamicDarkPrimaryColor(dynamicPrimaryDark, userColor);
-
-      document.getElementById("myonoffswitch2").checked = true;
-      document.getElementById("myonoffswitch5").checked = true;
-      document.getElementById("myonoffswitch8").checked = true;
-      // Adding
-      document.querySelector("body")?.classList.add("dark-theme");
-
-      // Removing
-      document.querySelector("body")?.classList.remove("light-theme");
-      document.querySelector("body")?.classList.remove("transparent-theme");
-      document.querySelector("body")?.classList.remove("bg-img1");
-      document.querySelector("body")?.classList.remove("bg-img2");
-      document.querySelector("body")?.classList.remove("bg-img3");
-      document.querySelector("body")?.classList.remove("bg-img4");
-
-      localStorage.removeItem("nowaPrimaryColor");
-      localStorage.removeItem("nowaprimaryHoverColor");
-      localStorage.removeItem("nowaprimaryBorderColor");
-      localStorage.removeItem("nowaprimaryTransparent");
-      localStorage.removeItem("nowatransparentPrimaryColor");
-      localStorage.removeItem("nowatransparentBgColor");
-      localStorage.removeItem("nowatransparent-bgImgPrimaryColor");
-      localStorage.removeItem("nowaBgImage");
-
-      Switcherdata.name();
-    }
-    function transparentPrimaryColor() {
-      var userColor = document.getElementById(
-        "transparentPrimaryColorID"
-      ).value;
-
-      localStorage.setItem("nowatransparentPrimaryColor", userColor);
-      localStorage.setItem("nowaprimaryHoverColor", userColor + 95);
-      localStorage.setItem("nowaprimaryBorderColor", userColor);
-      localStorage.setItem("nowaprimaryTransparent", userColor + 20);
-      const PrimaryTransparent = document.querySelectorAll(
-        "input.color-primary-transparent"
-      );
-
-      Switcherdata.dynamicTransparentPrimaryColor(
-        PrimaryTransparent,
-        userColor
-      );
-
-      document.getElementById("myonoffswitchTransparent").checked = true;
-
-      // Adding
-      document.querySelector("body")?.classList.add("transparent-theme");
-
-      // Removing
-      document.querySelector("body")?.classList.remove("light-theme");
-      document.querySelector("body")?.classList.remove("dark-theme");
-      document.querySelector("body")?.classList.remove("bg-img1");
-      document.querySelector("body")?.classList.remove("bg-img2");
-      document.querySelector("body")?.classList.remove("bg-img3");
-      document.querySelector("body")?.classList.remove("bg-img4");
-
-      localStorage.removeItem("nowaPrimaryColor");
-      localStorage.removeItem("nowaprimaryHoverColor");
-      localStorage.removeItem("nowaprimaryBorderColor");
-      localStorage.removeItem("nowaprimaryTransparent");
-      localStorage.removeItem("nowadarkPrimaryColor");
-      localStorage.removeItem("nowatransparent-bgImgPrimaryColor");
-      localStorage.removeItem("nowaBgImage");
-
-      Switcherdata.name();
-    }
-    function BgTransparentBackground() {
-      var userColor = document.getElementById("transparentBgColorID").value;
-
-      localStorage.setItem("nowatransparentBgColor", userColor);
-
-      const dynamicBackgroundColor = document.querySelectorAll(
-        "input.color-bg-transparent"
-      );
-
-      Switcherdata.dynamicBgTransparentBackground(
-        dynamicBackgroundColor,
-        userColor
-      );
-
-      document.getElementById("myonoffswitchTransparent").checked = true;
-
-      // Adding
-      document.querySelector("body")?.classList.add("transparent-theme");
-
-      // Removing
-      document.querySelector("body")?.classList.remove("light-theme");
-      document.querySelector("body")?.classList.remove("dark-theme");
-      document.querySelector("body")?.classList.remove("bg-img1");
-      document.querySelector("body")?.classList.remove("bg-img2");
-      document.querySelector("body")?.classList.remove("bg-img3");
-      document.querySelector("body")?.classList.remove("bg-img4");
-      document.querySelector("body")?.classList.remove("light-header");
-      document.querySelector("body")?.classList.remove("color-header");
-      document.querySelector("body")?.classList.remove("dark-header");
-      document.querySelector("body")?.classList.remove("gradient-header");
-      document.querySelector("body")?.classList.remove("light-menu");
-      document.querySelector("body")?.classList.remove("color-menu");
-      document.querySelector("body")?.classList.remove("dark-menu");
-      document.querySelector("body")?.classList.remove("gradient-menu");
-      localStorage.removeItem("nowaPrimaryColor");
-      localStorage.removeItem("nowaprimaryHoverColor");
-      localStorage.removeItem("nowaprimaryBorderColor");
-      localStorage.removeItem("nowaprimaryTransparent");
-      localStorage.removeItem("nowadarkPrimaryColor");
-      localStorage.removeItem("nowatransparent-bgImgPrimaryColor");
-      localStorage.removeItem("nowaBgImage");
-
-      Switcherdata.name();
-    }
-    function BgImgTransparentPrimaryColor() {
-      
-      var userColor = document.getElementById(
-        "transparentBgImgPrimaryColorID"
-      ).value;
-
-      localStorage.setItem("nowatransparent-bgImgPrimaryColor", userColor);
-
-      const dynamicPrimaryImgTransparent = document.querySelectorAll(
-        "input.color-primary-transparent"
-      );
-
-      Switcherdata.dynamicBgImgTransparentPrimaryColor(
-        dynamicPrimaryImgTransparent,
-        userColor
-      );
-// console.log(dynamicPrimaryImgTransparent);
-      document.getElementById("myonoffswitchTransparent").checked = true;
-
-      // Adding
-      document.querySelector("body")?.classList.add("transparent-theme");
-
-      // Removing
-      document.querySelector("body")?.classList.remove("light-theme");
-      document.querySelector("body")?.classList.remove("dark-theme");
-      document.querySelector("body")?.classList.remove("light-header");
-      document.querySelector("body")?.classList.remove("color-header");
-      document.querySelector("body")?.classList.remove("dark-header");
-      document.querySelector("body")?.classList.remove("gradient-header");
-      document.querySelector("body")?.classList.remove("light-menu");
-      document.querySelector("body")?.classList.remove("color-menu");
-      document.querySelector("body")?.classList.remove("dark-menu");
-      document.querySelector("body")?.classList.remove("gradient-menu");
-      localStorage.removeItem("nowaPrimaryColor");
-      localStorage.removeItem("nowaprimaryHoverColor");
-      localStorage.removeItem("nowaprimaryBorderColor");
-      localStorage.removeItem("nowaprimaryTransparent");
-      localStorage.removeItem("nowadarkPrimaryColor");
-      localStorage.removeItem("nowatransparentPrimaryColor");
-      localStorage.removeItem("nowatransparentBgColor");
-
-      document.querySelector("html").style.removeProperty("--transparent-body");
-
-      if (
-        document.querySelector("body")?.classList.contains("bg-img1") ===
-          false &&
-        document.querySelector("body")?.classList.contains("bg-img2") ===
-          false &&
-        document.querySelector("body")?.classList.contains("bg-img3") ===
-          false &&
-        document.querySelector("body")?.classList.contains("bg-img4") === false
-      ) {
-        document.querySelector("body")?.classList.add("bg-img1");
-        localStorage.setItem("nowaBgImage", "bg-img1");
-      }
-      Switcherdata.name();
-      
-    }
+    Switcherdata.name();
+  }
   return (
     <div>
       <div className="switcher-wrapper">
@@ -275,8 +265,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch54"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex mt-2">
@@ -291,8 +280,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch55"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                       </div>
@@ -315,8 +303,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch34"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex mt-2">
@@ -331,8 +318,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch35"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex mt-2">
@@ -347,8 +333,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch111"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                       </div>
@@ -371,8 +356,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch1"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex">
@@ -411,8 +395,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch2"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex mt-2">
@@ -452,8 +435,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitchTransparent"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex">
@@ -523,8 +505,7 @@ export default function Switcher() {
                           <Link
                             className="bg-img1"
                             onClick={() => Switcherdata.bgimage1()}
-                            to="#"
-                          >
+                            to="#">
                             <img
                               src={require("../../assets/img/media/bg-img1.jpg")}
                               id="bgimage1"
@@ -534,8 +515,7 @@ export default function Switcher() {
                           <Link
                             className="bg-img2"
                             onClick={() => Switcherdata.bgimage2()}
-                            to="#"
-                          >
+                            to="#">
                             <img
                               src={require("../../assets/img/media/bg-img2.jpg")}
                               id="bgimage2"
@@ -545,8 +525,7 @@ export default function Switcher() {
                           <Link
                             className="bg-img3"
                             onClick={() => Switcherdata.bgimage3()}
-                            to="#"
-                          >
+                            to="#">
                             <img
                               src={require("../../assets/img/media/bg-img3.jpg")}
                               id="bgimage3"
@@ -556,8 +535,7 @@ export default function Switcher() {
                           <Link
                             className="bg-img4"
                             onClick={() => Switcherdata.bgimage4()}
-                            to="#"
-                          >
+                            to="#">
                             <img
                               src={require("../../assets/img/media/bg-img4.jpg")}
                               id="bgimage4"
@@ -585,8 +563,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch3"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex mt-2">
@@ -601,8 +578,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch4"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex mt-2">
@@ -617,8 +593,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch5"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex mt-2">
@@ -633,8 +608,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch25"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                       </div>
@@ -657,8 +631,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch6"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex mt-2">
@@ -673,8 +646,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch7"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex mt-2">
@@ -689,8 +661,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch8"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex mt-2">
@@ -705,8 +676,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch26"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                       </div>
@@ -729,8 +699,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch9"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex mt-2">
@@ -745,8 +714,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch10"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                       </div>
@@ -769,8 +737,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch11"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                         <div className="switch-toggle d-flex mt-2">
@@ -785,8 +752,7 @@ export default function Switcher() {
                             />
                             <label
                               htmlFor="myonoffswitch12"
-                              className="onoffswitch2-label"
-                            ></label>
+                              className="onoffswitch2-label"></label>
                           </p>
                         </div>
                       </div>
@@ -805,8 +771,7 @@ export default function Switcher() {
                             Switcherdata.name();
                             Switcherdata.resetData();
                           }}
-                          type="button"
-                        >
+                          type="button">
                           Reset All
                         </Button>
                       </div>
@@ -821,6 +786,6 @@ export default function Switcher() {
     </div>
   );
 }
-Switcher.propTypes = {};
+// Switcher.propTypes = {};
 
-Switcher.defaultProps = {};
+// Switcher.defaultProps = {};

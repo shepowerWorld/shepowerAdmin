@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Card, Col, Row, Table, Button, Modal, ModalBody } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Row,
+  Table,
+  Button,
+  Modal,
+  ModalBody,
+} from "react-bootstrap";
 //import './Cards.css';
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "../../main.css";
-import "./main.css"
+import "./main.css";
 import Swal from "sweetalert2";
-import { APiURl, Profile_img,socket } from "../../Services/ApiAddress";
+import { APiURl, Profile_img, socket } from "../../Services/ApiAddress";
 const Cards = () => {
   const [data, Setdata] = useState([]);
   const [result2, setResult2] = useState([]);
@@ -14,7 +23,7 @@ const Cards = () => {
   const [loading, setloading] = useState(true);
   const [ImageURl, setImageURl] = useState([]);
   const [modalopen, setmodalopen] = useState(false);
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
   const dateConverted = (date) => {
     const formatedDate = new Date(date);
     return formatedDate.toLocaleDateString();
@@ -36,30 +45,40 @@ const Cards = () => {
 
   const handle = async () => {
     try {
-
       var myHeaders = new Headers();
       myHeaders.append("Authorization", "Bearer " + token);
 
       var requestOptions = {
-         method: 'GET',
+        method: "GET",
         headers: myHeaders,
-        redirect: 'follow'
+        redirect: "follow",
       };
 
-      const response = await fetch(APiURl+"getAllUsers", requestOptions);
+      const response = await fetch(APiURl + "getAllUsers", requestOptions);
       const result = await response.json();
 
       const filteredData = result.response.filter((item) =>
         item.profileID.includes("citizen")
       );
-      const iscombinedData  = filteredData.map((users)=>{
-        const {firstname ,lastname,mobilenumber ,email,dateConverted,adminBlock}=users
+      const iscombinedData = filteredData.map((users) => {
+        const {
+          firstname,
+          lastname,
+          mobilenumber,
+          email,
+          dateConverted,
+          adminBlock,
+        } = users;
         return {
-          firstname ,lastname,mobilenumber ,email,dateConverted,adminBlock
-        }
-      
-      })
-      setCombinedData(iscombinedData)
+          firstname,
+          lastname,
+          mobilenumber,
+          email,
+          dateConverted,
+          adminBlock,
+        };
+      });
+      setCombinedData(iscombinedData);
       Setdata(filteredData);
 
       console.log("result", result);
@@ -113,8 +132,7 @@ const Cards = () => {
   const CustomSwitch = ({ checked, onChange }) => (
     <div
       className={`custom-switch ${checked ? "active" : ""}`}
-      onClick={onChange}
-    >
+      onClick={onChange}>
       <div className={`switch-slider ${checked ? "active" : ""}`} />
     </div>
   );
@@ -139,8 +157,8 @@ const Cards = () => {
       .then((result) => {
         console.log(result.status);
         if (result.status === true) {
-          socket.emit("AdminBlock",result.response)
-          console.log("Scoket Block..",result.response)
+          socket.emit("AdminBlock", result.response);
+          console.log("Scoket Block..", result.response);
           handle();
           Title(result.message);
         }
@@ -148,38 +166,48 @@ const Cards = () => {
       .catch((error) => console.log("error", error));
   };
 
-  const openmodel=(imageurls)=>{
+  const openmodel = (imageurls) => {
     setImageURl(imageurls);
-    setmodalopen(true)
-  } 
+    setmodalopen(true);
+  };
   const columns = [
     {
       name: "Profile Image",
       selector: (row) => row.profileID,
       sortable: true,
       wrap: true,
-      maxWidth:"40px",
+      maxWidth: "40px",
       cell: (row) => (
-        <div style={{
-          width:"40px",
-          height:"40px",
-          borderRadius:"50%",
-          overflow: 'hidden',
-        }} onClick={()=>{row.profile_img != " " && openmodel(Profile_img + row.profile_img)}}>
-        <img
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-        }}
-        src= {row.profile_img != " "? Profile_img + row.profile_img : require('../../../assets/img/defalutavtar.jpg') }
-        alt="Image"
-      /></div>
+        <div
+          style={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            overflow: "hidden",
+          }}
+          onClick={() => {
+            row?.profile_img != " " &&
+              openmodel(Profile_img + row?.profile_img);
+          }}>
+          <img
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+            src={
+              row?.profile_img != " "
+                ? Profile_img + row?.profile_img
+                : require("../../../assets/img/defalutavtar.jpg")
+            }
+            alt="Image"
+          />
+        </div>
       ),
     },
     {
       name: "First Name",
-      selector: (row) => row.firstname,
+      selector: (row) => row?.firstname,
       sortable: true,
       wrap: true,
     },
@@ -222,9 +250,9 @@ const Cards = () => {
     },
   ];
 
-  const handechange = () =>{
-    setmodalopen(false)
-  }
+  const handechange = () => {
+    setmodalopen(false);
+  };
   const tableData = {
     columns,
     data,
@@ -245,7 +273,7 @@ const Cards = () => {
 
   return (
     <>
-      <div style={{ }}>
+      <div style={{}}>
         <div className="main-container container-fluid">
           <div className="breadcrumb-header justify-content-between">
             <div className="left-content">
@@ -261,8 +289,7 @@ const Cards = () => {
                 <Breadcrumb.Item
                   className="breadcrumb-item "
                   active
-                  aria-current="page"
-                >
+                  aria-current="page">
                   Citizen Mangement
                 </Breadcrumb.Item>
               </Breadcrumb>
@@ -301,10 +328,20 @@ const Cards = () => {
             </Col>
           </Row>
 
-          <Modal show={modalopen} onHide={handechange} aria-labelledby="contained-modal-title-vcenter"style={{marginLeft:"10%"}}>
-            <ModalBody style={{width:"fit-content",}}>
-             
-             <img src={ImageURl} style={{width:"150px",maxHeight:"150px" ,objectFit:"contain"}}/>
+          <Modal
+            show={modalopen}
+            onHide={handechange}
+            aria-labelledby="contained-modal-title-vcenter"
+            style={{ marginLeft: "10%" }}>
+            <ModalBody style={{ width: "fit-content" }}>
+              <img
+                src={ImageURl}
+                style={{
+                  width: "150px",
+                  maxHeight: "150px",
+                  objectFit: "contain",
+                }}
+              />
             </ModalBody>
           </Modal>
         </div>

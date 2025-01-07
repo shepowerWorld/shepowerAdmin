@@ -9,22 +9,22 @@ import {
   Form,
 } from "react-bootstrap";
 
+import "./main.css";
 import { APiURl, socket } from "../../Services/ApiAddress";
 import Swal from "sweetalert2";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import "./main.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Profile_img } from "../../Services/ApiAddress";
 
 const Calendar = () => {
   const router = useNavigate();
   const [combinedData, setCombinedData] = useState([]);
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
   const [data, setdata] = useState();
   useEffect(() => {
     getallgroups();
-  }, [])
+  }, []);
 
   const Blockuser = (id) => {
     var myHeaders = new Headers();
@@ -32,27 +32,27 @@ const Calendar = () => {
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      "_id": "650ad7596d19058c71e5221f"
+      _id: "650ad7596d19058c71e5221f",
     });
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
-    fetch("http://13.126.45.34:6002/groupBlockUnblock", requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        console.log(result)
+    fetch(`${APiURl}groupBlockUnblock`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
         if (result.status == true) {
           getallgroups();
-          Title(result.message)
+          Title(result.message);
         }
       })
-      .catch(error => console.log('error', error));
-  }
+      .catch((error) => console.log("error", error));
+  };
 
   function Title(message) {
     Swal.fire({
@@ -65,24 +65,23 @@ const Calendar = () => {
     });
   }
   const getallgroups = () => {
-
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + token);
-    
+
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
-    fetch(APiURl+"groupmanagement", requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        setdata(result.response)
-        console.log("group",result)
+    fetch(APiURl + "groupmanagement", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setdata(result.response);
+        console.log("group", result);
       })
-      .catch(error => console.log('error', error));
-  }
+      .catch((error) => console.log("error", error));
+  };
   function convertArrayOfObjectsToCSV(array) {
     let result;
 
@@ -128,8 +127,7 @@ const Calendar = () => {
   const CustomSwitch = ({ checked, onChange }) => (
     <div
       className={`custom-switch ${checked ? "active" : ""}`}
-      onClick={onChange}
-    >
+      onClick={onChange}>
       <div className={`switch-slider ${checked ? "active" : ""}`} />
     </div>
   );
@@ -142,23 +140,29 @@ const Calendar = () => {
       wrap: true,
       maxWidth: "40px",
       cell: (row) => (
-        <div style={{
-          width: "40px",
-          height: "40px",
-          borderRadius: "50%",
-          overflow: 'hidden',
-        }}
-        //  onClick={()=>{ row.profile_img != " " && openmodal(Profile_img + row.profile_img)}}
+        <div
+          style={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            overflow: "hidden",
+          }}
+          //  onClick={()=>{ row?.profile_img != " " && openmodal(Profile_img + row?.profile_img)}}
         >
           <img
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
             }}
-            src={row.group_profile_img != " " ? Profile_img + row.group_profile_img : require('../../../assets/img/defalutavtar.jpg')}
+            src={
+              row.group_profile_img != " "
+                ? Profile_img + row.group_profile_img
+                : require("../../../assets/img/defalutavtar.jpg")
+            }
             alt="Image"
-          /></div>
+          />
+        </div>
       ),
     },
 
@@ -172,7 +176,7 @@ const Calendar = () => {
 
     {
       name: "Admin Name",
-      selector: (row) => row.admin_id.firstname,
+      selector: (row) => row.admin_id?.firstname,
       sortable: true,
       wrap: true,
       maxWidth: "270px",
@@ -193,8 +197,9 @@ const Calendar = () => {
             backgroundColor: "rgba(243,63,129,255)",
             borderRadius: "50rem",
           }}
-          onClick={() => { router("/app/filemanager", { state: row.joining_group }) }}
-        >
+          onClick={() => {
+            router("/app/filemanager", { state: row.joining_group });
+          }}>
           {row.totalParticepants}{" "}
         </button>
       ),
@@ -214,7 +219,7 @@ const Calendar = () => {
             backgroundColor: "rgba(243,63,129,255)",
             borderRadius: "50rem",
           }}
-        // onClick={()=>{router("/app/filemanager1")}}
+          // onClick={()=>{router("/app/filemanager1")}}
         >
           {row.totalrequestcount}{" "}
         </button>
@@ -225,7 +230,6 @@ const Calendar = () => {
       name: "Actions",
       cell: (row) => (
         <CustomSwitch
-
           checked={row.adminBlock == true}
           onChange={() => Blockuser(row._id)}
         />
@@ -245,22 +249,19 @@ const Calendar = () => {
           style={{
             height: "30px",
             minWidth: "100px",
-            display:'flex',
-            alignItems:'center',
-            justifyContent:'center',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             borderColor: "rgba(243,63,129,255)",
             backgroundColor: "rgba(243,63,129,255)",
-            borderRadius:"50rem"
+            borderRadius: "50rem",
           }}
-          onClick={() => { 
-            socket.emit('joinRoom', row.room_id)
-            console.log("joining room",row.room_id)
-            router("/app/ChatRoom",
-           { state: row },
-          );
-        }}
-        >
-          Join 
+          onClick={() => {
+            socket.emit("joinRoom", row.room_id);
+            console.log("joining room", row.room_id);
+            router("/app/ChatRoom", { state: row });
+          }}>
+          Join
         </button>
       ),
     },
@@ -272,30 +273,27 @@ const Calendar = () => {
     myHeaders.append("Content-Type", "text/plain");
 
     var raw = JSON.stringify({
-      "_id": id
+      _id: id,
     });
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
     fetch(APiURl + "adminBlock", requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        console.log(result.status)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result.status);
         if (result.status == true) {
           getallgroups();
-          Title(result.message)
+          Title(result.message);
         }
-
       })
-      .catch(error => console.log('error', error));
-  }
-
-
+      .catch((error) => console.log("error", error));
+  };
 
   const tableData = {
     columns,
@@ -329,8 +327,7 @@ const Calendar = () => {
                 <Breadcrumb.Item
                   className="breadcrumb-item "
                   active
-                  aria-current="page"
-                >
+                  aria-current="page">
                   All GROUPS
                 </Breadcrumb.Item>
               </Breadcrumb>

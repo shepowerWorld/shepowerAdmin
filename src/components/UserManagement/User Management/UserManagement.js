@@ -70,7 +70,6 @@
 //   );
 // }
 
-
 // function DynamicTable() {
 //   const [data, setData] = useState([]);
 //   const [currentPage, setCurrentPage] = useState(1)
@@ -103,7 +102,6 @@
 //   //const handleNavigateClick = () => {
 //   // navigate('/Astro');
 
-
 //   return (
 //     <div className="container1">
 //       <h1>UserManagement</h1>
@@ -121,8 +119,6 @@
 //             {/* <th>searchbar</th> */}
 //             <th></th>
 
-
-
 //           </tr>
 //         </thead>
 
@@ -136,7 +132,7 @@
 //                 <td>{item.userid}</td>
 //                 <td>{item.phonenumber}</td>
 //                 <td>{item.devicetype}</td>
-//                 <td><img style={{ width: 100, height: 50, alignSelf: "center", marginTop: 15 }} src={'https://latestsoulipiebucket2.s3.ap-south-1.amazonaws.com/images/' + item.profile_img} alt={item.AstroSign_name} /></td>
+//                 <td><img style={{ width: 100, height: 50, alignSelf: "center", marginTop: 15 }} src={'https://latestsoulipiebucket2.s3.ap-south-1.amazonaws.com/images/' + item?.profile_img} alt={item.AstroSign_name} /></td>
 //                 {/* <td>{item.block / unblock}</td> */}
 //                 <td>{item.delete}</td>
 //                 {/* <td>{item.searchbar}</td> */}
@@ -156,6 +152,5 @@
 //     </div >
 //   );
 // }
-
 
 // export default DynamicTable;

@@ -63,8 +63,7 @@ const Calendar = () => {
   const CustomSwitch = ({ checked, onChange }) => (
     <div
       className={`custom-switch ${checked ? "active" : ""}`}
-      onClick={onChange}
-    >
+      onClick={onChange}>
       <div className={`switch-slider ${checked ? "active" : ""}`} />
     </div>
   );
@@ -79,7 +78,7 @@ const Calendar = () => {
       //   <Button
       //     variant=""
       //     type="button"
-      //     onClick={() => handleImageClick(row.profile_img)}
+      //     onClick={() => handleImageClick(row?.profile_img)}
       //     style={{
       //       height: '30px',
       //       display: 'flex',
@@ -101,7 +100,7 @@ const Calendar = () => {
       //           height: '100%',
       //           objectFit: 'cover',
       //         }}
-      //         src= {row.profile_img ? Profile_img + row.profile_img : require('../../../assets/img/brand/defalutavtar.jpg') }
+      //         src= {row?.profile_img ? Profile_img + row?.profile_img : require('../../../assets/img/brand/defalutavtar.jpg') }
       //         alt="Image"
       //       />
       //     </div>
@@ -122,19 +121,14 @@ const Calendar = () => {
       sortable: true,
 
       maxWidth: "270px",
-      
-      
     },
     {
       name: "Rescue Status",
       selector: (row) => row.status,
       sortable: true,
-      wrap:true,
-      maxWidth:"400px"
-      
+      wrap: true,
+      maxWidth: "400px",
     },
-
-    
   ];
 
   const tableData = {
@@ -153,12 +147,12 @@ const Calendar = () => {
 
   return (
     <>
-      <div >
+      <div>
         <div className="main-container container-fluid">
           <div className="breadcrumb-header justify-content-between">
             <div className="left-content">
               <span className="main-content-title mg-b-0 mg-b-lg-1">
-              List of Leaders
+                List of Leaders
               </span>
             </div>
             <div className="justify-content-center mt-2">
@@ -169,8 +163,7 @@ const Calendar = () => {
                 <Breadcrumb.Item
                   className="breadcrumb-item "
                   active
-                  aria-current="page"
-                >
+                  aria-current="page">
                   List of Leaders
                 </Breadcrumb.Item>
               </Breadcrumb>

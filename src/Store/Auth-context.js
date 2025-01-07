@@ -1,29 +1,40 @@
-import React, { useEffect, useState } from "react";
+// AuthContext.js
+import React, { useState } from "react";
 
+// Create the context with a default value
 const AuthContext = React.createContext({
-  IsLoggedIn: false, // Corrected the capitalization here
+  isLoggedIn: false,
   onLogin: () => {},
-  onLogout : () =>{}
+  onLogout: () => {},
 });
 
+// AuthContextProvider component
 export const AuthContextProvider = (props) => {
-  const [loggedIn, setLoggedIn] = useState(sessionStorage.getItem("adminLogin") == 1 ? true : false);
+  // Get the initial login state from sessionStorage
+  const [loggedIn, setLoggedIn] = useState(
+    sessionStorage.getItem("isLoggedIn") === "true"
+  );
 
- 
-
-
+  // Handler for logging in
   const loginHandler = () => {
-    sessionStorage.setItem("adminLogin",1)
+    sessionStorage.setItem("isLoggedIn", "true");
     setLoggedIn(true);
   };
 
-  const LogoutHandler = () => {
-    sessionStorage.clear();
+  // Handler for logging out
+  const logoutHandler = () => {
+    sessionStorage.removeItem("isLoggedIn");
     setLoggedIn(false);
   };
 
+  // Provide context value to children components
   return (
-    <AuthContext.Provider value={{ IsLoggedIn: loggedIn, onLogin: loginHandler ,onLogout :LogoutHandler }}>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: loggedIn,
+        onLogin: loginHandler,
+        onLogout: logoutHandler,
+      }}>
       {props.children}
     </AuthContext.Provider>
   );

@@ -102,7 +102,6 @@ const ChartJS = () => {
                       <th>ReporterUserName</th>
                       <th>Status</th>
                       {/* <th>Status</th> */}
-
                     </tr>
                   </thead>
                   <tbody>

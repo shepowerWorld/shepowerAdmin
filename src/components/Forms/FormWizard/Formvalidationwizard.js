@@ -7,7 +7,7 @@ function Name({ nextStep, handleFormData, values }){
     const submitFormData = (e) => {
       e.preventDefault();
       if (
-        validator.isEmpty(values.firstName) ||
+        validator.isEmpty(values?.firstName) ||
         validator.isEmpty(values.lastName)
       ) {
         setError(true);
@@ -24,7 +24,7 @@ function Name({ nextStep, handleFormData, values }){
                 <Form.Control
                   style={{ border: error ? "2px solid #6259ca" : "" }}
                   name="firstName"
-                  defaultValue={values.firstName}
+                  defaultValue={values?.firstName}
                   type="text"
                   placeholder="First Name"
                   onChange={handleFormData("firstName")}

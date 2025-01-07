@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Card, Col, Row, Table, Button, Modal, ModalBody } from "react-bootstrap";
-//import './Cards.css';
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Row,
+  Button,
+  Modal,
+  ModalBody,
+} from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import "../../main.css"
-// import "./Cards.css"
+import "../../main.css";
 import Swal from "sweetalert2";
-import { APiURl,Profile_img,socket} from "../../Services/ApiAddress";
+import { APiURl, Profile_img, socket } from "../../Services/ApiAddress";
 
 const Cards = () => {
   const [data, Setdata] = useState([]);
   const [ImageURl, setImageURl] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
   const [modalopen, setmodalopen] = useState(false);
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
   const dateConverted = (date) => {
     const formatedDate = new Date(date);
     return formatedDate.toLocaleDateString();
@@ -22,7 +28,7 @@ const Cards = () => {
     handle();
   }, []);
 
-  console.log("scoket....",socket)
+  console.log("scoket....", socket);
 
   function Title(message) {
     Swal.fire({
@@ -37,57 +43,60 @@ const Cards = () => {
 
   const handle = async () => {
     try {
-
       var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + token);
+      myHeaders.append("Authorization", "Bearer " + token);
 
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            redirect: 'follow'
-          };
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+      };
 
-      const response = await fetch(
-        APiURl + "getAllPayments",
-        requestOptions
-      );
+      const response = await fetch(APiURl + "getAllPayments", requestOptions);
       const result = await response.json();
       Setdata(result.orders);
 
       const iscombinedData = result.orders.map((users) => {
-        const { firstname, lastname, mobilenumber, email, dateConverted, adminBlock } = users
+        const {
+          firstname,
+          lastname,
+          mobilenumber,
+          email,
+          dateConverted,
+          adminBlock,
+        } = users;
         return {
-          firstname, lastname, mobilenumber, email, dateConverted, adminBlock
-        }
-
-      })
-      setCombinedData(iscombinedData)
-      console.log("result", result)
+          firstname,
+          lastname,
+          mobilenumber,
+          email,
+          dateConverted,
+          adminBlock,
+        };
+      });
+      setCombinedData(iscombinedData);
+      console.log("result", result);
     } catch (error) {
       console.log("error", error);
     }
   };
 
   const openmodal = (imageurl) => {
-    setImageURl(imageurl)
-    setmodalopen(true)
-  }
+    setImageURl(imageurl);
+    setmodalopen(true);
+  };
 
   const amountFormatter = (row) => {
-   
     const amountString = String(row.amount); // Convert amount to string
-  
+
     const dotIndex = amountString.length - 2;
     const modifiedAmount =
-      amountString.slice(0, dotIndex) + '.' + amountString.slice(dotIndex);
-  
+      amountString.slice(0, dotIndex) + "." + amountString.slice(dotIndex);
+
     return modifiedAmount;
   };
-  
 
   const columns = [
-
-
     {
       name: "Profile Image",
       selector: (row) => row.profileID,
@@ -95,26 +104,38 @@ const Cards = () => {
       wrap: true,
       maxWidth: "40px",
       cell: (row) => (
-        <div style={{
-          width: "40px",
-          height: "40px",
-          borderRadius: "50%",
-          overflow: 'hidden',
-        }} onClick={() => { row.userDetails?.profile_img  != " " && row.userDetails != null && openmodal(Profile_img + row.userDetails?.profile_img ) }}>
+        <div
+          style={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            overflow: "hidden",
+          }}
+          onClick={() => {
+            row.userDetails?.profile_img !== " " &&
+              row.userDetails !== null &&
+              openmodal(Profile_img + row.userDetails?.profile_img);
+          }}>
           <img
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
             }}
-            src={row.userDetails?.profile_img  != " " && row.userDetails != null ? Profile_img + row.userDetails?.profile_img : require('../../../assets/img/defalutavtar.jpg')}
+            src={
+              row.userDetails?.profile_img !== " " && row.userDetails !== null
+                ? Profile_img + row.userDetails?.profile_img
+                : require("../../../assets/img/defalutavtar.jpg")
+            }
             alt="Image"
-          /></div>
+          />
+        </div>
       ),
     },
     {
       name: "User Name",
-      selector: (row) => row.userDetails === null ?  "N/A" : row.userDetails?.firstname,
+      selector: (row) =>
+        row.userDetails === null ? "N/A" : row.userDetails?.firstname,
       sortable: true,
       wrap: true,
     },
@@ -140,15 +161,13 @@ const Cards = () => {
     },
     {
       name: "Paid At",
-      selector: (row) =>{
-       const dateObject= new Date (row.razorpay_timestamp)
-       return dateObject.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }); 
+      selector: (row) => {
+        const dateObject = new Date(row.razorpay_timestamp);
+        return dateObject.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
       },
       sortable: true,
       wrap: true,
     },
- 
-  
   ];
 
   function convertArrayOfObjectsToCSV(array) {
@@ -193,9 +212,6 @@ const Cards = () => {
     link.click();
   }
 
-
-
-
   const tableData = {
     columns,
     data,
@@ -210,13 +226,9 @@ const Cards = () => {
     [combinedData]
   );
 
-  const handleChange = (e) => { };
-
-  const handleChange1 = (e) => { };
-
   const handechange = () => {
-    setmodalopen(false)
-  }
+    setmodalopen(false);
+  };
 
   return (
     <>
@@ -225,20 +237,19 @@ const Cards = () => {
           <div className="breadcrumb-header justify-content-between">
             <div className="left-content">
               <span className="main-content-title mg-b-0 mg-b-lg-1">
-               Payment History
+                Payment History
               </span>
             </div>
             <div className="justify-content-center mt-2">
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item className="breadcrumb-item tx-15" href="#">
-                 Payment
+                  Payment
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item "
                   active
-                  aria-current="page"
-                >
-                 History
+                  aria-current="page">
+                  History
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -275,10 +286,20 @@ const Cards = () => {
               </Card>
             </Col>
           </Row>
-          <Modal show={modalopen} onHide={handechange} aria-labelledby="contained-modal-title-vcenter" style={{ marginLeft: "10%" }}>
-            <ModalBody style={{ width: "fit-content", }}>
-
-              <img src={ImageURl} style={{ width: "100px", maxHeight: "150px", objectFit: "contain" }} />
+          <Modal
+            show={modalopen}
+            onHide={handechange}
+            aria-labelledby="contained-modal-title-vcenter"
+            style={{ marginLeft: "10%" }}>
+            <ModalBody style={{ width: "fit-content" }}>
+              <img
+                src={ImageURl}
+                style={{
+                  width: "100px",
+                  maxHeight: "150px",
+                  objectFit: "contain",
+                }}
+              />
             </ModalBody>
           </Modal>
         </div>

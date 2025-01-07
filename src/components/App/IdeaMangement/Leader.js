@@ -3,18 +3,17 @@ import { Breadcrumb, Card, Col, Row, Table, Button } from "react-bootstrap";
 //import './Cards.css';
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import "../../main.css"
+import "../../main.css";
 import Swal from "sweetalert2";
 import { APiURl } from "../../Services/ApiAddress";
 import { Profile_img } from "../../Services/ApiAddress";
 import { useNavigate } from "react-router-dom";
 
 const Connections = () => {
-
   const router = useNavigate();
   const [data, Setdata] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
   const dateConverted = (date) => {
     const formatedDate = new Date(date);
     return formatedDate.toLocaleDateString();
@@ -31,42 +30,43 @@ const Connections = () => {
     });
   }
   useEffect(() => {
-
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + token);
-    
+
     var requestOptions = {
       method: "GET",
       headers: myHeaders,
       redirect: "follow",
     };
 
-    fetch(APiURl+"getAllShareLeader", requestOptions)
+    fetch(APiURl + "getAllShareLeader", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-             const data = result.response
-             Setdata(data)
+        const data = result.response;
+        Setdata(data);
 
-        const dataforexport = data.map((items)=>{
-          const {_id,firstname,totalConnections} = items
-          const connectionss = items.connections.map((conn)=>conn.firstname)
-          return{
-            _id,firstname,totalConnections,connectionss
-          }
-        })
-        console.log("dataforexport",dataforexport)
-        setCombinedData(dataforexport)
-        
+        const dataforexport = data.map((items) => {
+          const { _id, firstname, totalConnections } = items;
+          const connectionss = items.connections.map((conn) => conn?.firstname);
+          return {
+            _id,
+            firstname,
+            totalConnections,
+            connectionss,
+          };
+        });
+        console.log("dataforexport", dataforexport);
+        setCombinedData(dataforexport);
       })
       .catch((error) => console.log("error", error));
-  },[]);
+  }, []);
   const columns = [
     {
       name: "Profile Image",
       selector: (row) => row.userdeatils.profileID,
       sortable: true,
       wrap: true,
-     
+
       cell: (row) => (
         <div
           style={{
@@ -74,8 +74,7 @@ const Connections = () => {
             height: "40px",
             borderRadius: "50%",
             overflow: "hidden",
-          }}
-        >
+          }}>
           <img
             style={{
               width: "100%",
@@ -83,8 +82,8 @@ const Connections = () => {
               objectFit: "cover",
             }}
             src={
-              row.userdeatils.profile_img != " "
-                ? Profile_img + row.userdeatils.profile_img
+              row.userdeatils?.profile_img != " "
+                ? Profile_img + row.userdeatils?.profile_img
                 : require("../../../assets/img/defalutavtar.jpg")
             }
             alt="Image"
@@ -92,33 +91,27 @@ const Connections = () => {
         </div>
       ),
     },
-    
+
     {
       name: "First Name",
-      selector: (row) => row.userdeatils.firstname,
+      selector: (row) => row.userdeatils?.firstname,
       sortable: true,
       wrap: true,
     },
 
     {
-        name: "User Id",
-        selector: (row) => row.userdeatils.profileID,
-        sortable: true,
-        wrap: true,
-      },
-   
+      name: "User Id",
+      selector: (row) => row.userdeatils.profileID,
+      sortable: true,
+      wrap: true,
+    },
 
     {
-        name: "Description",
-        selector: (row) => row.description,
-        sortable: true,
-        wrap: true,
-      },
-   
-  
-    
-      
-  
+      name: "Description",
+      selector: (row) => row.description,
+      sortable: true,
+      wrap: true,
+    },
   ];
 
   function convertArrayOfObjectsToCSV(array) {
@@ -166,8 +159,7 @@ const Connections = () => {
   const CustomSwitch = ({ checked, onChange }) => (
     <div
       className={`custom-switch ${checked ? "active" : ""}`}
-      onClick={onChange}
-    >
+      onClick={onChange}>
       <div className={`switch-slider ${checked ? "active" : ""}`} />
     </div>
   );
@@ -186,26 +178,26 @@ const Connections = () => {
     [combinedData]
   );
 
-  return <>
-  <div>
+  return (
+    <>
+      <div>
         <div className="main-container container-fluid">
           <div className="breadcrumb-header justify-content-between">
             <div className="left-content">
               <span className="main-content-title mg-b-0 mg-b-lg-1">
-              Idea Management
+                Idea Management
               </span>
             </div>
             <div className="justify-content-center mt-2">
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item className="breadcrumb-item tx-15" href="#">
-               Leader
+                  Leader
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item "
                   active
-                  aria-current="page"
-                >
-                Leader
+                  aria-current="page">
+                  Leader
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -237,15 +229,15 @@ const Connections = () => {
                         style={{ position: "relative" }}
                       />
                     </DataTableExtensions>
-
-                    
                   </div>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
         </div>
-      </div></>;
+      </div>
+    </>
+  );
 };
 
 Connections.propTypes = {};
@@ -253,8 +245,3 @@ Connections.propTypes = {};
 Connections.defaultProps = {};
 
 export default Connections;
-
-
-
-
-

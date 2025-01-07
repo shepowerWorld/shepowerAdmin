@@ -1,7 +1,15 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 import React, { useContext } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, HashRouter, Route, Routes, useLocation, Redirect, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  HashRouter,
+  Route,
+  Routes,
+  useLocation,
+  Redirect,
+  Navigate,
+} from "react-router-dom";
 import Auth from "./Authentication/auth";
 import "./index.scss";
 import Loader from "./shade/Loaders/Loaders";
@@ -10,7 +18,7 @@ import "@fontsource/roboto/400.css"; // Specify weight
 import "@fontsource/roboto/400-italic.css"; // Specify weight and style
 
 import history from "./history";
-import Authcontext from './Store/Auth-context';
+import Authcontext from "./Store/Auth-context";
 const App1 = React.lazy(() => import("../src/shade/layouts/App"));
 const Switcherapp = React.lazy(() =>
   import("../src/shade/layouts/Switcherapp")
@@ -374,64 +382,90 @@ const AuthLogin = React.lazy(() => import("./Authentication/Login"));
 const AuthSignup = React.lazy(() => import("./Authentication/Signup"));
 //Form
 
-
 const Charetgroupjs = React.lazy(() =>
   import("./components/Charts/ChartJS/ChartJS1.js")
 );
 
-// chatRoom 
+// chatRoom
 
-const ChatRoom = React.lazy(()=> import("./components/AdvancedUI/Accordion/ChatRoom.js"))
+const ChatRoom = React.lazy(() =>
+  import("./components/AdvancedUI/Accordion/ChatRoom.js")
+);
 
 // terms and conditions
 
-const TermsAndConditions = React.lazy(()=>import("./components/App/TermsConditions/terms.js"))
-const AddTerms = React.lazy(()=>import("./components/App/TermsConditions/addTerms.js"))
-const UpdateTerms = React.lazy(()=>import("./components/App/TermsConditions/updateTerms.js"))
+const TermsAndConditions = React.lazy(() =>
+  import("./components/App/TermsConditions/terms.js")
+);
+const AddTerms = React.lazy(() =>
+  import("./components/App/TermsConditions/addTerms.js")
+);
+const UpdateTerms = React.lazy(() =>
+  import("./components/App/TermsConditions/updateTerms.js")
+);
 
-// Privacy Policy 
+// Privacy Policy
 
-const PrivacyPolicy = React.lazy(()=>import("./components/App/PrivacyPolicy/privacy.js"))
-const AddPrivacy = React.lazy(()=> import("./components/App/PrivacyPolicy/addPrivacy.js"))
-const UpdatePrivacy = React.lazy(()=>import("./components/App/PrivacyPolicy/updatePrivacy.js"))
+const PrivacyPolicy = React.lazy(() =>
+  import("./components/App/PrivacyPolicy/privacy.js")
+);
+const AddPrivacy = React.lazy(() =>
+  import("./components/App/PrivacyPolicy/addPrivacy.js")
+);
+const UpdatePrivacy = React.lazy(() =>
+  import("./components/App/PrivacyPolicy/updatePrivacy.js")
+);
 
-// Language 
+// Language
 
-const Language = React.lazy(()=>import("./components/App/Languagess/language.js"))
-const Addlanguage = React.lazy(()=>import("./components/App/Languagess/addLanguage.js"))
-const UpdateLanguage = React.lazy(()=>import("./components/App/Languagess/updateLanguage.js"))
+const Language = React.lazy(() =>
+  import("./components/App/Languagess/language.js")
+);
+const Addlanguage = React.lazy(() =>
+  import("./components/App/Languagess/addLanguage.js")
+);
+const UpdateLanguage = React.lazy(() =>
+  import("./components/App/Languagess/updateLanguage.js")
+);
 
-// Payment 
-const Payment = React.lazy(()=> import("./components/App/PaymentHistory/payment.js"))
+// Payment
+const Payment = React.lazy(() =>
+  import("./components/App/PaymentHistory/payment.js")
+);
 
-// Idea Managemnt 
+// Idea Managemnt
 
-const LeaderIdea = React.lazy(()=>import("./components/App/IdeaMangement/Leader.js"))
-const CitizenIdea = React.lazy(()=>import("./components/App/IdeaMangement/Citizen.js"))
+const LeaderIdea = React.lazy(() =>
+  import("./components/App/IdeaMangement/Leader.js")
+);
+const CitizenIdea = React.lazy(() =>
+  import("./components/App/IdeaMangement/Citizen.js")
+);
 
-// FAQ Management 
+// FAQ Management
 
-const Faq = React.lazy(()=>import('./components/App/FAQManagement/Faq.js'))
-const AddFaq = React.lazy(()=> import("./components/App/FAQManagement/AddFaq.js"))
-const UpdateFaq = React.lazy(()=> import("./components/App/FAQManagement/UpdateFaq.js"))
+const Faq = React.lazy(() => import("./components/App/FAQManagement/Faq.js"));
+const AddFaq = React.lazy(() =>
+  import("./components/App/FAQManagement/AddFaq.js")
+);
+const UpdateFaq = React.lazy(() =>
+  import("./components/App/FAQManagement/UpdateFaq.js")
+);
 
 // GET Ratings
-const GETRating = React.lazy(()=> import("./components/App/GETRatingsReview/Rating.js"))
+const GETRating = React.lazy(() =>
+  import("./components/App/GETRatingsReview/Rating.js")
+);
 
 function App() {
+  // const location = useLocation();
+  // console.log("location",location)
 
-// const location = useLocation();
-// console.log("location",location)
-  const ctx = useContext(Authcontext)
-  console.log("ctx",ctx.IsloggedIn)
-
-    
   return (
     <React.Fragment>
       <HashRouter history={history}>
         <React.Suspense fallback={<Loader />}>
-          
-            <Routes>
+          <Routes>
             <Route path={`${process.env.PUBLIC_URL}/`} element={<Auth />}>
               <Route index element={<AuthLogin />} />
 
@@ -444,7 +478,7 @@ function App() {
                 element={<AuthSignup />}
               />
             </Route>
-           
+
             <Route path={`${process.env.PUBLIC_URL}/`} element={<App1 />}>
               <Route
                 path={`${process.env.PUBLIC_URL}/widgets`}
@@ -519,7 +553,7 @@ function App() {
                   element={<Helpline />}
                 />
 
-              <Route
+                <Route
                   path={`${process.env.PUBLIC_URL}/app/LeaderIdea`}
                   element={<LeaderIdea />}
                 />
@@ -529,83 +563,81 @@ function App() {
                   element={<CitizenIdea />}
                 />
 
-                <Route 
-                path={`${process.env.PUBLIC_URL}/app/TermsAndConditions`}
-                element={<TermsAndConditions/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/TermsAndConditions`}
+                  element={<TermsAndConditions />}
                 />
 
-              <Route 
-                path={`${process.env.PUBLIC_URL}/app/AddTermsAndConditions`}
-                element={<AddTerms/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/AddTermsAndConditions`}
+                  element={<AddTerms />}
                 />
 
-              <Route 
-                path={`${process.env.PUBLIC_URL}/app/UpdateTermsAndConditions`}
-                element={<UpdateTerms/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/UpdateTermsAndConditions`}
+                  element={<UpdateTerms />}
                 />
 
-                <Route 
-                path={`${process.env.PUBLIC_URL}/app/PrivacyPolicy`}
-                element={<PrivacyPolicy/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/PrivacyPolicy`}
+                  element={<PrivacyPolicy />}
                 />
 
-                <Route 
-                path={`${process.env.PUBLIC_URL}/app/AddPrivacyPolicy`}
-                element={<AddPrivacy/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/AddPrivacyPolicy`}
+                  element={<AddPrivacy />}
                 />
 
-                <Route 
-                path={`${process.env.PUBLIC_URL}/app/UpdatePrivacyPolicy`}
-                element={<UpdatePrivacy/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/UpdatePrivacyPolicy`}
+                  element={<UpdatePrivacy />}
                 />
 
-              <Route 
-                path={`${process.env.PUBLIC_URL}/app/FAQ`}
-                element={<Faq/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/FAQ`}
+                  element={<Faq />}
                 />
 
-              <Route 
-                path={`${process.env.PUBLIC_URL}/app/AddFaq`}
-                element={<AddFaq/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/AddFaq`}
+                  element={<AddFaq />}
                 />
 
-              <Route 
-                path={`${process.env.PUBLIC_URL}/app/UpdateFaq`}
-                element={<UpdateFaq/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/UpdateFaq`}
+                  element={<UpdateFaq />}
                 />
 
-                
-                <Route 
-                path={`${process.env.PUBLIC_URL}/app/Language`}
-                element={<Language/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/Language`}
+                  element={<Language />}
                 />
 
-              <Route 
-                path={`${process.env.PUBLIC_URL}/app/AddLanguage`}
-                element={<Addlanguage/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/AddLanguage`}
+                  element={<Addlanguage />}
                 />
 
-                
-              <Route 
-                path={`${process.env.PUBLIC_URL}/app/UpdateLanguage`}
-                element={<UpdateLanguage/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/UpdateLanguage`}
+                  element={<UpdateLanguage />}
                 />
 
-              <Route 
-                path={`${process.env.PUBLIC_URL}/app/PaymentHistory`}
-                element={<Payment/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/PaymentHistory`}
+                  element={<Payment />}
                 />
 
-<Route 
-                path={`${process.env.PUBLIC_URL}/app/ChatRoom`}
-                element={<ChatRoom/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/ChatRoom`}
+                  element={<ChatRoom />}
                 />
 
-<Route 
-                path={`${process.env.PUBLIC_URL}/app/RatingsReview`}
-                element={<GETRating/>}
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/RatingsReview`}
+                  element={<GETRating />}
                 />
-                
+
                 <Route
                   path={`${process.env.PUBLIC_URL}/app/contributions`}
                   element={<Contributions />}
@@ -1053,8 +1085,7 @@ function App() {
             </Route>
             <Route
               path={`${process.env.PUBLIC_URL}/`}
-              element={<Custompages />}
-            >
+              element={<Custompages />}>
               <Route
                 path={`${process.env.PUBLIC_URL}/pages/Authentication/sigin`}
                 element={<SignIn />}
@@ -1097,8 +1128,8 @@ function App() {
               />
             </Route>
             <Route></Route>
-          </Routes> 
-          
+          </Routes>
+
           {/* <Routes>
             <Route path={`${process.env.PUBLIC_URL}/`} element={<Auth />}>
               <Route index element={<AuthLogin />} />
@@ -1110,8 +1141,6 @@ function App() {
            
            
           </Routes>  */}
-          
-          
         </React.Suspense>
       </HashRouter>
     </React.Fragment>

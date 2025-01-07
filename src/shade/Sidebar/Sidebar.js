@@ -207,20 +207,16 @@ const Sidebar = () => {
       <aside
         className="app-sidebar "
         onMouseOver={() => Onhover()}
-        onMouseOut={() => Outhover()}
-      >
+        onMouseOut={() => Outhover()}>
         <Scrollbars
           options={{ suppressScrollX: true }}
           className="hor-scroll"
-          style={{ position: "absolute" }}
-        >
-          <div className="main-sidebar-header active" style={{width:265,}}>
+          style={{ position: "absolute" }}>
+          <div className="main-sidebar-header active">
             <NavLink
-            
               className="header-logo active"
-              to={`${process.env.PUBLIC_URL}/dashboard/dashboard-1`}
-            >
-              <div className="d-flex justify-content-center"  >
+              to={`${process.env.PUBLIC_URL}/dashboard/dashboard-1`}>
+              <div className="d-flex justify-content-center">
                 <img
                   style={{ width: "60px", height: "50px" }}
                   src={require("../../assets/img/brand/shepower-1-removebg-preview.png")}
@@ -253,8 +249,7 @@ const Sidebar = () => {
                 fill="#7b8191"
                 width="24"
                 height="24"
-                viewBox="0 0 24 24"
-              >
+                viewBox="0 0 24 24">
                 <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" />
               </svg>
             </div>
@@ -270,15 +265,13 @@ const Sidebar = () => {
                       className={`slide ${
                         menuItem.selected ? "is-expanded" : ""
                       }  ${menuItem.active ? "is-expanded" : ""}`}
-                      key={i}
-                    >
+                      key={i}>
                       {menuItem.type === "link" ? (
                         <NavLink
                           to={menuItem.path + "/"}
                           className={`side-menu__item ${
                             menuItem.selected ? " active" : ""
-                          }`}
-                        >
+                          }`}>
                           {menuItem.icon}
                           <span className="side-menu__label">
                             {menuItem.title}
@@ -303,8 +296,7 @@ const Sidebar = () => {
                           }}
                           className={`side-menu__item ${
                             menuItem.selected ? "" : ""
-                          }`}
-                        >
+                          }`}>
                           {menuItem.icon}
                           <span className="side-menu__label">
                             {menuItem.title}
@@ -332,16 +324,14 @@ const Sidebar = () => {
                             menuItem.active
                               ? { display: "block" }
                               : { display: "none" }
-                          }
-                        >
+                          }>
                           {menuItem.children.map((childrenItem, index) => {
                             return (
                               <li
                                 key={index}
                                 className={`sub-slide ${
                                   childrenItem.selected ? "is-expanded" : ""
-                                } ${childrenItem.active ? "is-expanded" : ""}`}
-                              >
+                                } ${childrenItem.active ? "is-expanded" : ""}`}>
                                 {childrenItem.type === "sub" ? (
                                   <a
                                     href="javascript"
@@ -353,8 +343,7 @@ const Sidebar = () => {
                                     onClick={(event) => {
                                       event.preventDefault();
                                       toggleSidemenu(childrenItem);
-                                    }}
-                                  >
+                                    }}>
                                     <span className="sub-side-menu__label">
                                       {childrenItem.title}
                                       {childrenItem.active}
@@ -369,8 +358,7 @@ const Sidebar = () => {
                                   <span as="li">
                                     <NavLink
                                       to={childrenItem.path + "/"}
-                                      className="slide-item"
-                                    >
+                                      className="slide-item">
                                       {childrenItem.title}
                                       {childrenItem.active}
                                     </NavLink>
@@ -387,16 +375,14 @@ const Sidebar = () => {
                                       childrenItem.active
                                         ? { display: "block" }
                                         : { display: "none" }
-                                    }
-                                  >
+                                    }>
                                     {childrenItem.children.map(
                                       (childrenSubItem, key) => (
                                         <li key={key}>
                                           {childrenSubItem.type === "link" ? (
                                             <NavLink
                                               to={childrenSubItem.path + "/"}
-                                              className="sub-side-menu__item"
-                                            >
+                                              className="sub-side-menu__item">
                                               <span className="sub-side-menu__label">
                                                 {childrenSubItem.title}
                                                 {childrenSubItem.active}
@@ -416,8 +402,7 @@ const Sidebar = () => {
                                                 childrenSubItem.active
                                                   ? "is-expanded"
                                                   : ""
-                                              }`}
-                                            >
+                                              }`}>
                                               <NavLink
                                                 to="#"
                                                 className="sub-side-menu__item"
@@ -426,8 +411,7 @@ const Sidebar = () => {
                                                   toggleSidemenu(
                                                     childrenSubItem
                                                   );
-                                                }}
-                                              >
+                                                }}>
                                                 <span className="sub-side-menu__label">
                                                   {childrenSubItem.title}
                                                   {childrenSubItem.active}
@@ -447,8 +431,7 @@ const Sidebar = () => {
                                                       childrenSubItemsub.active
                                                         ? { display: "block" }
                                                         : { display: "none" }
-                                                    }
-                                                  >
+                                                    }>
                                                     {childrenItem.children.map(
                                                       (
                                                         childrenSubItemsubs,
@@ -457,8 +440,7 @@ const Sidebar = () => {
                                                         <li key={key}>
                                                           <NavLink
                                                             className="sub-slide-item2"
-                                                            to="#"
-                                                          >
+                                                            to="#">
                                                             {
                                                               childrenSubItemsubs.title
                                                             }
@@ -501,8 +483,7 @@ const Sidebar = () => {
                 fill="#7b8191"
                 width="24"
                 height="24"
-                viewBox="0 0 24 24"
-              >
+                viewBox="0 0 24 24">
                 <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z" />
               </svg>
             </div>
