@@ -4,15 +4,15 @@ import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import "./modal.css";
 import { APiURl } from "../../Services/ApiAddress";
+import axios from "axios";
 
 const Modals = () => {
   const [text1, setText] = useState();
-  const [title,SetTitle]=useState();
+  const [title, SetTitle] = useState();
   const [img, setImg] = useState();
   const location = useLocation();
   const [loading, setloading] = useState();
-  console.log("Title", title);
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
 
   function Title(message) {
     Swal.fire({
@@ -26,8 +26,7 @@ const Modals = () => {
       if (result.isConfirmed) {
         window.location.reload(false);
       }
-    })
-    
+    });
   }
 
   function Title1(message, title) {
@@ -41,62 +40,95 @@ const Modals = () => {
     });
   }
 
-  const Imagepost = () => {
-    if (title !== undefined && img !== undefined || text1 !== undefined && title!== undefined) {
+  const Imagepost = async () => {
+    if (
+      (title !== undefined && img !== undefined) ||
+      (text1 !== undefined && title !== undefined)
+    ) {
       setloading(true);
 
-      var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Bearer " + token);
-
-      var formdata = new FormData();
-      formdata.append("text", text1); // Use the text state variable
-      formdata.append("image", img); // Use the img state variable
-      formdata.append("title", title);
-
-      var requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: formdata,
-        redirect: "follow",
+      const myHeaders = {
+        Authorization: "Bearer " + token,
       };
 
-      fetch(APiURl+"allUserNotification", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(result);
-
-          if (result.message == "Notification Sent To All Empower Users Successfully" || result.message == "Notification Sent To All Empower Users Successfully") {
-            
-            Title(result.message);
-            setloading(false);
-          }
-
-          if (
-            result.message == "No Users Available For Sending Notifications."
-          ) {
-            setloading(false);
-            Title1(result.message, "No Users Found");
-           
-          }
-          if(result.message == "Please Fill Notification Content")
+      const payload = {
+        title: title,
+        message: text1,
+        filepath: img,
+      };
+      try {
+        const response = await axios.post(
+          APiURl + "addNotifications",
+          payload,
           {
-            
-            setloading(false)
-            Title1("Please Fill Notification Content", "");
+            headers: myHeaders,
           }
-        })
-        .catch((error) => console.log("error", error));
-    } 
-    else {
+        );
+        console.log("response_________________________", response);
+
+        if (response?.data?.sucess) {
+          const result = response.data;
+          Title(response?.data?.message);
+          setloading(false);
+          setImg(null);
+          setText(null);
+          SetTitle(null);
+        } else {
+          Title1(response?.data?.message);
+          setloading(false);
+        }
+
+        // if (
+        //   result.message ===
+        //   "Notification Sent To All Empower Users Successfully"
+        // ) {
+        //   Title(result.message);
+        //   setloading(false);
+        // } else if (
+        //   result.message === "No Users Available For Sending Notifications."
+        // ) {
+        //   setloading(false);
+        //   Title1(result.message, "No Users Found");
+        // } else if (result.message === "Please Fill Notification Content") {
+        //   setloading(false);
+        //   Title1("Please Fill Notification Content", "");
+        // }
+      } catch (error) {
+        console.log("error", error);
+        setloading(false);
+        Title1("Error occurred while sending notification", "");
+      }
+    } else {
       Title1("Please Fill Notification Content", "");
     }
   };
 
-  const onImageChange = (event) => {
+  const onImageChange = async (event) => {
     if (event.target.files && event.target.files[0]) {
-      setImg(URL.createObjectURL(event.target.files[0]));
+      const file = event.target.files[0];
+      setImg(URL.createObjectURL(file));
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await axios.post(APiURl + "uploadImage", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.data && response.data.path) {
+          setImg(response.data.path);
+          console.log("Image uploaded successfully:", response.data.path);
+        } else {
+          console.error("Unexpected response structure:", response.data);
+        }
+      } catch (error) {
+        console.error("Error uploading the image:", error);
+        setImg(null);
+      }
     }
-   }
+  };
 
   return (
     <div
@@ -104,7 +136,13 @@ const Modals = () => {
       style={{ marginTop: 50, marginLeft: "%" }}
     >
       <Row style={{ marginTop: 10, marginLeft: "5%" }}>
-        <Col lg={4} xl={4} md={4} className="col-12 falled" style={{marginTop:"5%"}}>
+        <Col
+          lg={4}
+          xl={4}
+          md={4}
+          className="col-12 falled"
+          style={{ marginTop: "5%" }}
+        >
           <Card
             className="bg-danger bg-gradient text-white "
             style={{ maxHeight: "90px" }}
@@ -132,11 +170,20 @@ const Modals = () => {
           <Col className="col-6">
             <div className="mt-0 text-center"></div>
           </Col>
-             <label for="exampleInputEmail1" class="form-label">
+          <label htmlFor="exampleInputEmail1" className="form-label">
             Title
           </label>
-            <input type="text"  class="form-control border" id="exampleInputEmail1" placeholder="Title" onChange={(e)=>{SetTitle(e.target.value)}} aria-describedby="emailHelp"></input>
-          <label for="exampleInputEmail1" class="form-label">
+          <input
+            type="text"
+            className="form-control border"
+            id="exampleInputEmail1"
+            placeholder="Title"
+            onChange={(e) => {
+              SetTitle(e.target.value);
+            }}
+            aria-describedby="emailHelp"
+          ></input>
+          <label htmlFor="exampleInputEmail1" className="form-label">
             Message
           </label>
           <textarea
@@ -153,11 +200,11 @@ const Modals = () => {
             }}
             rows={3}
           />
-          <label for="exampleInputEmail1" class="form-label">
+          <label htmlFor="exampleInputEmail1" className="form-label">
             Select Image
           </label>
           <input
-            class="form-control border"
+            className="form-control border"
             type="file"
             id="formFile"
             name="file"
@@ -183,12 +230,14 @@ const Modals = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              background:
-                "rgba(243,63,129,255)",
+              background: "rgba(243,63,129,255)",
             }}
           >
             {loading ? (
-              <span class="loader pr-10" style={{ marginRight: "5px" }}></span>
+              <span
+                className="loader pr-10"
+                style={{ marginRight: "5px" }}
+              ></span>
             ) : null}
             Send Notification
           </Button>
@@ -202,7 +251,11 @@ const Modals = () => {
         >
           <div
             className="ml-50 backgroundimg justify-content-center text-center"
-            style={{ border: "1px soild", height: "500px" ,borderRadius:"16px"}}
+            style={{
+              border: "1px soild",
+              height: "500px",
+              borderRadius: "16px",
+            }}
           >
             <div className="timee text-center ">12:53</div>
             <div className="dayy text-center">FRIDAY, FEBRUARY 17</div>
@@ -220,13 +273,12 @@ const Modals = () => {
                   now
                 </div>
               </div>
-              <div className="hiuser text-start">{title == undefined || title == ""? "Hi Users!" : title}</div>
+              <div className="hiuser text-start">
+                {title === undefined || title === "" ? "Hi Users!" : title}
+              </div>
 
-              <div
-                className="messagetext"
-               
-              >
-                {text1 == undefined || text1 == "" ? (
+              <div className="messagetext">
+                {text1 === undefined || text1 === "" ? (
                   <>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
                     aliquam, purus sit amet luctus venenatis, lectus magna
@@ -237,9 +289,11 @@ const Modals = () => {
                 )}
               </div>
 
-              {img === undefined ? (
-                null
-              ) : <div><img src={img} style={{height:"200px"}}/></div>}
+              {img === undefined ? null : (
+                <div>
+                  <img src={img} style={{ height: "200px" }} />
+                </div>
+              )}
             </Card>
           </div>
         </Col>

@@ -93,6 +93,13 @@ export const MENUITEMS = [
             selected: false,
             title: "Leader",
           },
+          {
+            path: `${process.env.PUBLIC_URL}/app/sosuser`,
+            type: "link",
+            active: false,
+            selected: false,
+            title: "SOS User",
+          },
           // {
           //   path: `${process.env.PUBLIC_URL}/app/EmergencyRescue`,
           //   type: "link",
@@ -516,7 +523,6 @@ export const MENUITEMS = [
             active: false,
             selected: false,
           },
-
         ],
       },
 
@@ -639,7 +645,7 @@ export const MENUITEMS = [
         selected: false,
         title: "Ratings & Review",
       },
-      
+
       {
         title: "Terms&Conditions",
         icon: (
@@ -711,12 +717,8 @@ export const MENUITEMS = [
         selected: false,
         title: "Privacy Pollicy",
       },
-    
     ],
   },
-
-
-
 
   // {
   //   title: "Notification Management",
@@ -1992,9 +1994,9 @@ export const MENUITEMS = [
   //   selected: false,
   //   title: "Vector Maps ",
   // },
-]
- // },
+];
+// },
 
- // },
+// },
 
 //],

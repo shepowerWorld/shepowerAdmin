@@ -47,6 +47,8 @@ const Dashboard3 = React.lazy(() =>
 //App
 const Cards = React.lazy(() => import("./components/App/Cards/Cards"));
 const Contacts = React.lazy(() => import("./components/App/Contacts/Contacts"));
+// New Pass
+const Sosuser = React.lazy(() => import("./components/App/Sosuser/Sosuser"));
 const Filedetails = React.lazy(() =>
   import("./components/App/File-details/Filedetails")
 );
@@ -511,6 +513,10 @@ function App() {
                 <Route
                   path={`${process.env.PUBLIC_URL}/app/contacts`}
                   element={<Contacts />}
+                />
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/sosuser`}
+                  element={<Sosuser />}
                 />
                 <Route
                   path={`${process.env.PUBLIC_URL}/app/filedetails`}
@@ -1085,7 +1091,8 @@ function App() {
             </Route>
             <Route
               path={`${process.env.PUBLIC_URL}/`}
-              element={<Custompages />}>
+              element={<Custompages />}
+            >
               <Route
                 path={`${process.env.PUBLIC_URL}/pages/Authentication/sigin`}
                 element={<SignIn />}

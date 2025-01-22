@@ -1,5 +1,12 @@
-import { faBell,faIndianRupeeSign,faHouse ,faUser,faUsers,faCalendarDays} from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  faBell,
+  faIndianRupeeSign,
+  faHouse,
+  faUser,
+  faUsers,
+  faCalendarDays,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const MENUITEMS = [
   {
     menutitle: "Main",
@@ -7,8 +14,10 @@ export const MENUITEMS = [
       {
         title: "Dashboards",
         icon: (
-          <FontAwesomeIcon icon={faHouse} style={{marginRight:"12px",marginLeft:"3px"}}/>
- 
+          <FontAwesomeIcon
+            icon={faHouse}
+            style={{ marginRight: "12px", marginLeft: "3px" }}
+          />
         ),
         type: "sub",
         selected: false,
@@ -46,7 +55,10 @@ export const MENUITEMS = [
       {
         title: "User Management",
         icon: (
- <FontAwesomeIcon icon={faUser} style={{marginRight:"12px",marginLeft:"3px"}}/>
+          <FontAwesomeIcon
+            icon={faUser}
+            style={{ marginRight: "12px", marginLeft: "3px" }}
+          />
         ),
         type: "sub",
         selected: false,
@@ -79,6 +91,13 @@ export const MENUITEMS = [
             active: false,
             selected: false,
             title: "Leader",
+          },
+          {
+            path: `${process.env.PUBLIC_URL}/app/sosuser`,
+            type: "link",
+            active: false,
+            selected: false,
+            title: "SOS User",
           },
           // {
           //   path: `${process.env.PUBLIC_URL}/app/EmergencyRescue`,
@@ -137,7 +156,10 @@ export const MENUITEMS = [
       {
         title: "Category Management",
         icon: (
-          <FontAwesomeIcon icon={faUsers} style={{marginRight:"12px",marginLeft:"3px"}}/>
+          <FontAwesomeIcon
+            icon={faUsers}
+            style={{ marginRight: "12px", marginLeft: "3px" }}
+          />
         ),
         type: "sub",
         selected: false,
@@ -335,8 +357,11 @@ export const MENUITEMS = [
 
       {
         title: "Group Management",
-        icon: (<FontAwesomeIcon icon={faUsers} style={{marginRight:"12px",marginLeft:"3px"}}/>
-        
+        icon: (
+          <FontAwesomeIcon
+            icon={faUsers}
+            style={{ marginRight: "12px", marginLeft: "3px" }}
+          />
         ),
         type: "sub",
         selected: false,
@@ -351,8 +376,10 @@ export const MENUITEMS = [
       {
         title: "Events Management",
         icon: (
-          <FontAwesomeIcon icon={faCalendarDays} style={{marginRight:"12px",marginLeft:"3px"}}/>
-
+          <FontAwesomeIcon
+            icon={faCalendarDays}
+            style={{ marginRight: "12px", marginLeft: "3px" }}
+          />
         ),
 
         title: "Events Management",
@@ -404,7 +431,10 @@ export const MENUITEMS = [
       {
         title: "Contribution Management",
         icon: (
-        <FontAwesomeIcon icon={faIndianRupeeSign} style={{marginRight:"12px",marginLeft:"3px"}}/>
+          <FontAwesomeIcon
+            icon={faIndianRupeeSign}
+            style={{ marginRight: "12px", marginLeft: "3px" }}
+          />
         ),
         type: "sub",
         selected: false,
@@ -420,7 +450,10 @@ export const MENUITEMS = [
       {
         title: "Notification Management",
         icon: (
-          <FontAwesomeIcon icon={faBell} style={{marginRight:"12px",marginLeft:"3px"}}/>
+          <FontAwesomeIcon
+            icon={faBell}
+            style={{ marginRight: "12px", marginLeft: "3px" }}
+          />
         ),
         type: "sub",
         selected: false,
@@ -482,9 +515,6 @@ export const MENUITEMS = [
       },
     ],
   },
-
-
-
 
   // {
   //   title: "Notification Management",
@@ -1760,9 +1790,9 @@ export const MENUITEMS = [
   //   selected: false,
   //   title: "Vector Maps ",
   // },
-]
- // },
+];
+// },
 
- // },
+// },
 
 //],
