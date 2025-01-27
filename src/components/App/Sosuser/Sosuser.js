@@ -1,13 +1,20 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  // Suspense,
+} from "react";
 import {
   Breadcrumb,
   Card,
   Col,
   Row,
-  Table,
+  // Table,
   Button,
   Modal,
   ModalBody,
+  Spinner,
 } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -21,13 +28,15 @@ const Sosuser = () => {
   const [data, setData] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState(null);
   const token = sessionStorage.getItem("token");
 
-  const showSuccessAlert = useCallback((message) => {
+  const showAlert = useCallback((message, type = "success") => {
     Swal.fire({
-      title: "Well done!",
-      icon: "success",
+      title: type === "success" ? "Well done!" : "Error",
+      icon: type,
       allowOutsideClick: false,
       confirmButtonText: "ok",
       cancelButtonColor: "#38cab3",
@@ -36,87 +45,87 @@ const Sosuser = () => {
   }, []);
 
   const dateConverted = useCallback((date) => {
+    if (!date) return "N/A";
     const formatedDate = new Date(date);
     return formatedDate.toLocaleDateString();
   }, []);
 
   const fetchUsers = useCallback(async () => {
+    setIsLoading(true);
+    // setError(null);
     try {
       const myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
-
-      const response = await fetch(`${APiURl}getAllUsers`, {
+      const response1 = await fetch(`${APiURl}getAllCounsellingPending`, {
         method: "GET",
         headers: myHeaders,
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch users");
+      if (!response1.ok) {
+        throw new Error(`HTTP error! status: ${response1.status}`);
       }
 
-      const result = await response.json();
+      const result1 = await response1.json();
+      if (!result1?.data) {
+        throw new Error("Data not found");
+      }
 
-      const filteredData = result.response
-        .filter((item) => item.profileID.includes("Leader"))
-        .map((item) => ({
-          ...item,
-          isLeader: false,
-        }));
-
-      setCombinedData(filteredData);
-      setData(filteredData);
+      setData(result1.data);
+      setCombinedData(result1.data);
     } catch (error) {
       console.error("Error fetching users:", error);
-      showSuccessAlert("Failed to fetch users. Please try again.");
+      // setError(error.message);
+      showAlert(
+        error.message || "Failed to fetch users. Please try again.",
+        "error"
+      );
+    } finally {
+      setIsLoading(false);
     }
-  }, [token, showSuccessAlert]);
+  }, [token, showAlert]);
 
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
 
-  const blockUser = useCallback(
-    async (id) => {
+  const handleSosApproval = useCallback(
+    async (id, status) => {
       try {
-        const response = await fetch(`${APiURl}adminBlock`, {
-          method: "POST",
+        const response = await fetch(`${APiURl}updateSosStatus`, {
+          method: "PUT",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ _id: id }),
+          body: JSON.stringify({ _id: id, status }),
         });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
         const result = await response.json();
 
         if (result.status) {
-          socket.emit("AdminBlock", result.response);
+          socket.emit("SosApproved", result.response);
           await fetchUsers();
-          showSuccessAlert(result.message);
+          showAlert(result.message);
+        } else {
+          throw new Error(result.message || "Failed to update status");
         }
       } catch (error) {
-        console.error("Error blocking user:", error);
-        showSuccessAlert("Failed to block user. Please try again.");
+        console.error("Error approving SOS:", error);
+        showAlert(
+          error.message || "Failed to update status. Please try again.",
+          "error"
+        );
       }
     },
-    [token, fetchUsers, showSuccessAlert]
-  );
-
-  const handleLeaderApproval = useCallback(
-    async (id) => {
-      try {
-        await fetchUsers();
-        showSuccessAlert("Leader Approved Successfully");
-      } catch (error) {
-        console.error("Error approving leader:", error);
-        showSuccessAlert("Failed to approve leader. Please try again.");
-      }
-    },
-    [fetchUsers, showSuccessAlert]
+    [fetchUsers, showAlert, token]
   );
 
   const CustomSwitch = useMemo(() => {
-    return ({ checked, onChange }) => (
+    return React.memo(({ checked, onChange }) => (
       <div
         className={`custom-switch ${checked ? "active" : ""}`}
         onClick={onChange}
@@ -125,7 +134,7 @@ const Sosuser = () => {
       >
         <div className={`switch-slider ${checked ? "active" : ""}`} />
       </div>
-    );
+    ));
   }, []);
 
   const columns = useMemo(
@@ -154,31 +163,32 @@ const Sosuser = () => {
                   : defaultAvatar
               }
               alt={`${row?.firstname}'s profile`}
+              loading="lazy"
             />
           </div>
         ),
       },
       {
         name: "First Name",
-        selector: (row) => row?.firstname,
+        selector: (row) => row?.firstname || "N/A",
         sortable: true,
         wrap: true,
       },
       {
         name: "Last Name",
-        selector: (row) => row?.lastname,
+        selector: (row) => row?.lastname || "N/A",
         sortable: true,
         wrap: true,
       },
       {
         name: "Mobile Number",
-        selector: (row) => row?.mobilenumber,
+        selector: (row) => row?.mobilenumber || "N/A",
         sortable: true,
         wrap: true,
       },
       {
         name: "Email",
-        selector: (row) => row?.email,
+        selector: (row) => row?.email || "N/A",
         sortable: true,
         wrap: true,
       },
@@ -189,23 +199,24 @@ const Sosuser = () => {
         wrap: true,
       },
       {
-        name: "Actions",
-        cell: (row) => (
-          <CustomSwitch
-            checked={row.adminBlock === true}
-            onChange={() => blockUser(row._id)}
-          />
-        ),
-        ignoreRowClick: true,
-        allowOverflow: true,
-        button: true,
+        name: "SOS Status",
+        selector: (row) => row?.sos_status || "N/A",
+        sortable: true,
+        wrap: true,
       },
       {
         name: "Approve/Reject",
         cell: (row) => (
           <CustomSwitch
-            checked={row.isLeader === true}
-            onChange={() => handleLeaderApproval(row._id)}
+            checked={row.sos_status === "Approved"}
+            onLabel="Approved"
+            offLabel="Pending"
+            onChange={() =>
+              handleSosApproval(
+                row._id,
+                row.sos_status === "Approved" ? "Pending" : "Approved"
+              )
+            }
           />
         ),
         ignoreRowClick: true,
@@ -213,26 +224,42 @@ const Sosuser = () => {
         button: true,
       },
     ],
-    [CustomSwitch, blockUser, handleLeaderApproval, dateConverted]
+    [CustomSwitch, handleSosApproval, dateConverted]
   );
 
-  const exportToCSV = useCallback((array) => {
-    const keys = Object.keys(array[0]);
-    const csvContent = [
-      keys.join(","),
-      ...array.map((item) => keys.map((key) => item[key]).join(",")),
-    ].join("\n");
+  const exportToCSV = useCallback(
+    (array) => {
+      if (!array?.length) {
+        showAlert("No data to export", "error");
+        return;
+      }
+      try {
+        const keys = Object.keys(array[0]);
+        const csvContent = [
+          keys.join(","),
+          ...array.map((item) => keys.map((key) => item[key] || "").join(",")),
+        ].join("\n");
 
-    const link = document.createElement("a");
-    const csv = `data:text/csv;charset=utf-8,${encodeURIComponent(csvContent)}`;
-    link.setAttribute("href", csv);
-    link.setAttribute("download", "export.csv");
-    link.click();
-  }, []);
+        const link = document.createElement("a");
+        const csv = `data:text/csv;charset=utf-8,${encodeURIComponent(
+          csvContent
+        )}`;
+        link.setAttribute("href", csv);
+        link.setAttribute("download", "sos_users_export.csv");
+        link.click();
+      } catch (error) {
+        console.error("Error exporting CSV:", error);
+        showAlert("Failed to export data", "error");
+      }
+    },
+    [showAlert]
+  );
 
-  const ExportButton = useMemo(() => {
-    return ({ onExport }) => <Button onClick={onExport}>Export</Button>;
-  }, []);
+  const ExportButton = useMemo(
+    () =>
+      React.memo(({ onExport }) => <Button onClick={onExport}>Export</Button>),
+    []
+  );
 
   const actionsMemo = useMemo(
     () => <ExportButton onExport={() => exportToCSV(combinedData)} />,
@@ -247,12 +274,22 @@ const Sosuser = () => {
     [columns, data]
   );
 
+  // if (error) {
+  //   return (
+  //     <div className="error-container">
+  //       <h3>Error loading SOS users</h3>
+  //       <p>{error}</p>
+  //       <Button onClick={fetchUsers}>Retry</Button>
+  //     </div>
+  //   );
+  // }
+
   return (
     <div className="main-container container-fluid">
       <div className="breadcrumb-header justify-content-between">
         <div className="left-content">
           <span className="main-content-title mg-b-0 mg-b-lg-1">
-            List of SOS User
+            List of SOS Users
           </span>
         </div>
         <div className="justify-content-center mt-2">
@@ -265,7 +302,7 @@ const Sosuser = () => {
               active
               aria-current="page"
             >
-              Sos Management
+              SOS Management
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -275,22 +312,33 @@ const Sosuser = () => {
         <Col lg={12}>
           <Card className="custom-card">
             <Card.Body>
-              <div className="table-responsive fileexport">
-                <DataTableExtensions
-                  {...tableData}
-                  print={false}
-                  exportHeaders={true}
-                  filterPlaceholder="Search Records"
-                >
-                  <DataTable
-                    columns={columns}
-                    data={data}
-                    actions={actionsMemo}
-                    selectableRows
-                    pagination
-                  />
-                </DataTableExtensions>
-              </div>
+              {isLoading ? (
+                <div className="text-center p-4">
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                </div>
+              ) : (
+                <div className="table-responsive fileexport">
+                  <DataTableExtensions
+                    {...tableData}
+                    print={false}
+                    exportHeaders={true}
+                    filterPlaceholder="Search Records"
+                  >
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      actions={actionsMemo}
+                      selectableRows
+                      pagination
+                      progressPending={isLoading}
+                      persistTableHead
+                      responsive
+                    />
+                  </DataTableExtensions>
+                </div>
+              )}
             </Card.Body>
           </Card>
         </Col>
@@ -312,6 +360,7 @@ const Sosuser = () => {
               maxHeight: "500px",
               objectFit: "contain",
             }}
+            loading="lazy"
           />
         </ModalBody>
       </Modal>
