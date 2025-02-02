@@ -25,6 +25,7 @@ export const MENUITEMS = [
         active: false,
         selected: false,
         title: "Dashboard",
+        key: "link_dashboard",
       },
       // {
       //   path: `${process.env.PUBLIC_URL}/dashboard/dashboard-2`,
@@ -71,6 +72,7 @@ export const MENUITEMS = [
             active: false,
             selected: false,
             title: "All user",
+            key: "link_alluser",
           },
           // {
           //   path: `${process.env.PUBLIC_URL}/app/rangeslider`,
@@ -85,6 +87,7 @@ export const MENUITEMS = [
             active: false,
             selected: false,
             title: "Citizen",
+            key: "link_citizen",
           },
           {
             path: `${process.env.PUBLIC_URL}/app/contacts`,
@@ -92,6 +95,7 @@ export const MENUITEMS = [
             active: false,
             selected: false,
             title: "Leader",
+            key: "link_leader",
           },
           {
             path: `${process.env.PUBLIC_URL}/app/sosuser`,
@@ -99,6 +103,7 @@ export const MENUITEMS = [
             active: false,
             selected: false,
             title: "SOS User",
+            key: "link_sosuser",
           },
           // {
           //   path: `${process.env.PUBLIC_URL}/app/EmergencyRescue`,
@@ -177,6 +182,7 @@ export const MENUITEMS = [
             type: "link",
             active: false,
             selected: false,
+            key: "link_category",
           },
           {
             path: `${process.env.PUBLIC_URL}/elements/avatar`,
@@ -184,6 +190,7 @@ export const MENUITEMS = [
             type: "link",
             active: false,
             selected: false,
+            key: "link_subcategory",
           },
           // {
           //   path: `${process.env.PUBLIC_URL}/elements/breadcrumbs`,
@@ -336,6 +343,7 @@ export const MENUITEMS = [
         active: false,
         selected: false,
         title: "Connections of Users",
+        key: "link_connection",
       },
       {
         title: "Post of All Users",
@@ -359,6 +367,7 @@ export const MENUITEMS = [
         active: false,
         selected: false,
         title: "Post of All Users",
+        key: "link_post",
       },
 
       {
@@ -383,6 +392,7 @@ export const MENUITEMS = [
         active: false,
         selected: false,
         title: "Groups Management",
+        key: "link_group",
       },
       {
         title: "Events Management",
@@ -409,6 +419,7 @@ export const MENUITEMS = [
             type: "link",
             active: false,
             selected: false,
+            key: "link_liveevents",
           },
           {
             path: `${process.env.PUBLIC_URL}/app/Events1`,
@@ -416,6 +427,7 @@ export const MENUITEMS = [
             type: "link",
             active: false,
             selected: false,
+            key: "link_upcomingevents",
           },
         ],
       },
@@ -442,6 +454,7 @@ export const MENUITEMS = [
         active: false,
         selected: false,
         title: "Rescue Management",
+        key: "link_rescue",
       },
 
       // {
@@ -465,7 +478,6 @@ export const MENUITEMS = [
       //   type: "link",
       //   active: false,
       //   selected: false,
-      //   title: "Contribution Management",
       // },
 
       {
@@ -490,6 +502,7 @@ export const MENUITEMS = [
         active: false,
         selected: false,
         title: "Notification Management",
+        key: "link_notification",
       },
 
       {
@@ -515,6 +528,7 @@ export const MENUITEMS = [
             type: "link",
             active: false,
             selected: false,
+            key: "link_leaderidea",
           },
           {
             path: `${process.env.PUBLIC_URL}/app/CitizenIdea`,
@@ -522,6 +536,7 @@ export const MENUITEMS = [
             type: "link",
             active: false,
             selected: false,
+            key: "link_citizenidea",
           },
         ],
       },
@@ -572,6 +587,7 @@ export const MENUITEMS = [
         active: false,
         selected: false,
         title: "Pyament History ",
+        key: "link_paymenthistory",
       },
 
       // {
@@ -595,7 +611,6 @@ export const MENUITEMS = [
       //   type: "link",
       //   active: false,
       //   selected: false,
-      //   title: "Helpline",
       // },
 
       {
@@ -620,10 +635,10 @@ export const MENUITEMS = [
         active: false,
         selected: false,
         title: "Language",
+        key: "link_language",
       },
 
       {
-        title: "language",
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -644,6 +659,54 @@ export const MENUITEMS = [
         active: false,
         selected: false,
         title: "Ratings & Review",
+        key: "link_ratings",
+      },
+      {
+        icon: (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="side-menu__icon"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z" />
+          </svg>
+        ),
+        type: "sub",
+        selected: false,
+        active: false,
+
+        path: `${process.env.PUBLIC_URL}/app/Banner`,
+        type: "link",
+        active: false,
+        selected: false,
+        title: "Banner",
+        key: "link_banner",
+      },
+
+      {
+        icon: (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="side-menu__icon"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z" />
+          </svg>
+        ),
+        type: "sub",
+        selected: false,
+        active: false,
+
+        path: `${process.env.PUBLIC_URL}/app/GovtScheme`,
+        type: "link",
+        active: false,
+        selected: false,
+        title: "Goverment Scheme",
+        key: "link_govtscheme",
       },
 
       {
@@ -668,6 +731,7 @@ export const MENUITEMS = [
         active: false,
         selected: false,
         title: "Terms & Conditions",
+        key: "link_terms",
       },
 
       {
@@ -692,6 +756,7 @@ export const MENUITEMS = [
         active: false,
         selected: false,
         title: "FAQ Management",
+        key: "link_faq",
       },
 
       {
@@ -716,6 +781,7 @@ export const MENUITEMS = [
         active: false,
         selected: false,
         title: "Privacy Pollicy",
+        key: "link_privacypolicy",
       },
     ],
   },
@@ -858,9 +924,7 @@ export const MENUITEMS = [
   //           height="24"
   //           viewBox="0 0 24 24"
   //         >
-  //           <path d="M22 7.999a1 1 0 0 0-.516-.874l-9.022-5a1.003 1.003 0 0 0-.968 0l-8.978 4.96a1 1 0 0 0-.003 1.748l9.022 5.04a.995.995 0 0 0 .973.001l8.978-5A1 1 0 0 0 22 7.999zm-9.977 3.855L5.06 7.965l6.917-3.822 6.964 3.859-6.918 3.852z" />
-  //           <path d="M20.515 11.126 12 15.856l-8.515-4.73-.971 1.748 9 5a1 1 0 0 0 .971 0l9-5-.97-1.748z" />
-  //           <path d="M20.515 15.126 12 19.856l-8.515-4.73-.971 1.748 9 5a1 1 0 0 0 .971 0l9-5-.97-1.748z" />
+  //           <path d="M22 7h-1.209A4.92 4.92 0 0 0 19 5.5C19 3.57 17.43 2 15.5 2c-1.622 0-2.705 1.482-3.404 3.085C11.407 3.57 10.269 2 8.5 2 6.57 2 5 3.57 5 5.5c0 .596.079 1.089.209 1.5H4c-1.103 0-2 .897-2 2v2c0 1.103.897 2 2 2v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7c1.103 0 2-.897 2-2V9c0-1.103-.897-2-2-2zm-4.5-3c.827 0 1.5.673 1.5 1.5C17 7 16.374 7 16 7h-2.478c.511-1.576 1.253-3 1.978-3zM7 5c3.691 0 5.931 1.507 6 1.994C17.931 7.493 15.691 9 12 9S6.069 7.493 6 7.006C6.069 6.507 8.309 5 12 5zM6 9.607C7.479 10.454 9.637 11 12 11s4.521-.546 6-1.393v2.387c-.069.499-2.309 2.006-6 2.006s-5.931-1.507-6-2V9.607zM6 17v-2.393C7.479 15.454 9.637 16 12 16s4.521-.546 6-1.393v2.387c-.069.499-2.309 2.006-6 2.006s-5.931-1.507-6-2z" />
   //         </svg>
   //       ),
   //       type: "sub",
@@ -1219,7 +1283,7 @@ export const MENUITEMS = [
   //           height="24"
   //           viewBox="0 0 24 24"
   //         >
-  //           <path d="M20 7h-1.209A4.92 4.92 0 0 0 19 5.5C19 3.57 17.43 2 15.5 2c-1.622 0-2.705 1.482-3.404 3.085C11.407 3.57 10.269 2 8.5 2 6.57 2 5 3.57 5 5.5c0 .596.079 1.089.209 1.5H4c-1.103 0-2 .897-2 2v2c0 1.103.897 2 2 2v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7c1.103 0 2-.897 2-2V9c0-1.103-.897-2-2-2zm-4.5-3c.827 0 1.5.673 1.5 1.5C17 7 16.374 7 16 7h-2.478c.511-1.576 1.253-3 1.978-3zM7 5.5C7 4.673 7.673 4 8.5 4c.888 0 1.714 1.525 2.198 3H8c-.374 0-1 0-1-1.5zM4 9h7v2H4V9zm2 11v-7h5v7H6zm12 0h-5v-7h5v7zm-5-9V9.085L13.017 9H20l.001 2H13z" />
+  //           <path d="M20 7h-1.209A4.92 4.92 0 0 0 19 5.5C19 3.57 17.43 2 15.5 2c-1.622 0-2.705 1.482-3.404 3.085C11.407 3.57 10.269 2 8.5 2 6.57 2 5 3.57 5 5.5c0 .596.079 1.089.209 1.5H4c-1.103 0-2 .897-2 2v2c0 1.103.897 2 2 2v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7c1.103 0 2-.897 2-2V9c0-1.103-.897-2-2-2zm-4.5-3c.827 0 1.5.673 1.5 1.5C17 7 16.374 7 16 7h-2.478c.511-1.576 1.253-3 1.978-3zM7 5c3.691 0 5.931 1.507 6 1.994C17.931 7.493 15.691 9 12 9S6.069 7.493 6 7.006C6.069 6.507 8.309 5 12 5zM6 9.607C7.479 10.454 9.637 11 12 11s4.521-.546 6-1.393v2.387c-.069.499-2.309 2.006-6 2.006s-5.931-1.507-6-2V9.607zM6 17v-2.393C7.479 15.454 9.637 16 12 16s4.521-.546 6-1.393v2.387c-.069.499-2.309 2.006-6 2.006s-5.931-1.507-6-2z" />
   //         </svg>
   //       ),
   //       type: "sub",
@@ -1322,7 +1386,7 @@ export const MENUITEMS = [
   //       height="24"
   //       viewBox="0 0 24 24"
   //     >
-  //       <path d="M20 7h-4V4c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v5H4c-1.103 0-2 .897-2 2v9a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9c0-1.103-.897-2-2-2zM4 11h4v8H4v-8zm6-1V4h4v15h-4v-9zm10 9h-4V9h4v10z" />
+  //       <path d="M20 7h-4V4c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v5H4c-1.103 0-2 .897-2 2v9a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9c0-1.103-.897-2-2-2zm0 2 .001 4H5V5h14zM5 11h8v8H5v-8zm10 8v-8h4.001l.001 8H15z" />
   //     </svg>
   //   ),
   //   type: "sub",
@@ -1363,94 +1427,12 @@ export const MENUITEMS = [
   //}
   //],
   //},
-  //{
-  // menutitle: "MULTI LEVEL",
-  //Items: [
-  // {
-  //   title: "Menu-levels",
-  //   icon: (
-  //     <svg
-  //       xmlns="http://www.w3.org/2000/svg"
-  //       className="side-menu__icon"
-  //       width="24"
-  //       height="24"
-  //       viewBox="0 0 24 24"
-  //     >
-  //       <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
-  //     </svg>
-  //   ),
-  //   type: "sub",
-  //   selected: false,
-  //   active: false,
-  //   children: [
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/#`,
-  //       title: "Level-1",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       title: "Level-2",
-  //       type: "sub",
-  //       selected: false,
-  //       active: false,
-  //       children: [
-  //         {
-  //           path: `${process.env.PUBLIC_URL}/#`,
-  //           title: "Level-2.1",
-  //           type: "link",
-  //           active: false,
-  //           selected: false,
-  //         },
-  //         {
-  //           path: `${process.env.PUBLIC_URL}/#`,
-  //           title: "Level-2.2",
-  //           type: "link",
-  //           active: false,
-  //           selected: false,
-  //         },
 
-  //         {
-  //           title: "Level-2.3",
-  //           type: "sub",
-  //           selected: false,
-  //           active: false,
-  //           children: [
-  //             {
-  //               path: `${process.env.PUBLIC_URL}/#`,
-  //               title: "Level-2.3.1",
-  //               type: "link",
-  //               active: false,
-  //               selected: false,
-  //             },
-  //             {
-  //               path: `${process.env.PUBLIC_URL}/#`,
-  //               title: "Level-2.3.2",
-  //               type: "link",
-  //               active: false,
-  //               selected: false,
-  //             },
-  //             {
-  //               path: `${process.env.PUBLIC_URL}/# `,
-  //               title: "Level-2.3.3",
-  //               type: "link",
-  //               active: false,
-  //               selected: false,
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
-  //],
-  // },
   // {
-  //   menutitle: "COMPONENTS",
+  //   menutitle: "MULTI LEVEL",
   //   Items: [
   //     {
-  //       title: "Rescue Management",
+  //       title: "Menu-levels",
   //       icon: (
   //         <svg
   //           xmlns="http://www.w3.org/2000/svg"
@@ -1459,7 +1441,7 @@ export const MENUITEMS = [
   //           height="24"
   //           viewBox="0 0 24 24"
   //         >
-  //           <path d="M19.937 8.68c-.011-.032-.02-.063-.033-.094a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.99.99 0 0 0-.05-.258zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z" />
+  //           <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
   //         </svg>
   //       ),
   //       type: "sub",
@@ -1467,388 +1449,66 @@ export const MENUITEMS = [
   //       active: false,
   //       children: [
   //         {
-  //           path: `${process.env.PUBLIC_URL}/form/formElements`,
-  //           title: "Form Elements",
-  //           type: "link",
-  //           active: false,
-  //           selected: false,
-  //         },
-  //         {
-  //           path: `${process.env.PUBLIC_URL}/form/advancedform`,
-  //           title: "Advanced Forms",
-  //           type: "link",
-  //           active: false,
-  //           selected: false,
-  //         },
-  // {
-  //   path: `${process.env.PUBLIC_URL}/form/formlayouts`,
-  //   title: "Form Layouts",
-  //   type: "link",
-  //   active: false,
-  //   selected: false,
-  // },
-  // {
-  //   path: `${process.env.PUBLIC_URL}/form/formValidation`,
-  //   title: "Form Validation",
-  //   type: "link",
-  //   active: false,
-  //   selected: false,
-  // },
-  // {
-  //   path: `${process.env.PUBLIC_URL}/form/formWizard`,
-  //   title: "Form Wizard",
-  //   type: "link",
-  //   active: false,
-  //   selected: false,
-  // },
-  // {
-  //   path: `${process.env.PUBLIC_URL}/form/formEditor`,
-  //   title: "Form Editor",
-  //   type: "link",
-  //   active: false,
-  //   selected: false,
-  // },
-  // {
-  //   path: `${process.env.PUBLIC_URL}/form/formelementsizes`,
-  //   title: "Form-element-sizes",
-  //   type: "link",
-  //   active: false,-
-  //   selected: false,
-  // },
-  // {
-  //   path: `${process.env.PUBLIC_URL}/form/forminputspinners`,
-  //   title: "Form Input Spinners",
-  //   type: "link",
-  //   active: false,
-  //   selected: false,
-  // },
-  // ],
-  //},
-  // {
-  //   title: "Contribution Management",
-  //   icon: (
-  //     <svg
-  //       xmlns="http://www.w3.org/2000/svg"
-  //       className="side-menu__icon"
-  //       width="24"
-  //       height="24"
-  //       viewBox="0 0 24 24"
-  //     >
-  //       <path d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm0 2 .001 4H5V5h14zM5 11h8v8H5v-8zm10 8v-8h4.001l.001 8H15z" />
-  //     </svg>
-  //   ),
-  //   type: "sub",
-  //   selected: false,
-  //   active: false,
-  //   children: [
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/tables/defaultTables`,
-  //       title: " Sticker Management",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/tables/dataTables`,
-  //       title: "Data Tables ",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: `${process.env.PUBLIC_URL}/widgets`,
-  //   icon: (
-  //     <svg
-  //       xmlns="http://www.w3.org/2000/svg"
-  //       className="side-menu__icon"
-  //       width="24"
-  //       height="24"
-  //       viewBox="0 0 24 24"
-  //     >
-  //       <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11 4h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6h-4v-4h4v4zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z" />
-  //     </svg>
-  //   ),
-  //   type: "link",
-  //   selected: false,
-  //   active: false,
-  //   title: "Notification Manage",
-  // },
-  // {
-  //   title: "Maps",
-  //   icon: (
-  //     <svg
-  //       xmlns="http://www.w3.org/2000/svg"
-  //       className="side-menu__icon"
-  //       width="24"
-  //       height="24"
-  //       viewBox="0 0 24 24"
-  //     >
-  //       <path d="M2.002 9.63c-.023.411.207.794.581.966l7.504 3.442 3.442 7.503c.164.356.52.583.909.583l.057-.002a1 1 0 0 0 .894-.686l5.595-17.032c.117-.358.023-.753-.243-1.02s-.66-.358-1.02-.243L2.688 8.736a1 1 0 0 0-.686.894zm16.464-3.971-4.182 12.73-2.534-5.522a.998.998 0 0 0-.492-.492L5.734 9.841l12.732-4.182z" />
-  //     </svg>
-  //   ),
-  //   type: "sub",
-  //   selected: false,
-  //   active: false,
-  // children: [
-  // {
-  //       // path: `${process.env.PUBLIC_URL}/maps/leafletMaps`,
-  //       // type: "link",
-  //       // active: false,
-  //       // selected: false,
-  //       // title: "Notification Management ",
-  //       //},
-  // {
-  //   path: `${process.env.PUBLIC_URL}/maps/vectorMaps`,
-  //   type: "link",
-  //   active: false,
-  //   selected: false,
-  //   title: "Vector Maps ",
-  // },
-  //],
-  // },
-  //]
-  //},
-
-  // {
-  //   menutitle: "GENERAL",
-  //   Items: [
-  //     {
-  //       title: "Icons",
-  //       icon: (
-  //         <svg
-  //           xmlns="http://www.w3.org/2000/svg"
-  //           className="side-menu__icon"
-  //           width="24"
-  //           height="24"
-  //           viewBox="0 0 24 24"
-  //         >
-  //           <path d="M20 7h-1.209A4.92 4.92 0 0 0 19 5.5C19 3.57 17.43 2 15.5 2c-1.622 0-2.705 1.482-3.404 3.085C11.407 3.57 10.269 2 8.5 2 6.57 2 5 3.57 5 5.5c0 .596.079 1.089.209 1.5H4c-1.103 0-2 .897-2 2v2c0 1.103.897 2 2 2v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7c1.103 0 2-.897 2-2V9c0-1.103-.897-2-2-2zm-4.5-3c.827 0 1.5.673 1.5 1.5C17 7 16.374 7 16 7h-2.478c.511-1.576 1.253-3 1.978-3zM7 5.5C7 4.673 7.673 4 8.5 4c.888 0 1.714 1.525 2.198 3H8c-.374 0-1 0-1-1.5zM4 9h7v2H4V9zm2 11v-7h5v7H6zm12 0h-5v-7h5v7zm-5-9V9.085L13.017 9H20l.001 2H13z" />
-  //         </svg>
-  //       ),
-  //       type: "sub",
-  //       selected: false,
-  //       // children: [
-
-  //       path: `${process.env.PUBLIC_URL}/icon/fontAwesome`,
-  //       title: "Status Management",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/icon/materialDesignIcons`,
-  //       title: "Material Design Icons",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/icon/simpleLineIcons`,
-  //       title: "Simple Line Icons",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/icon/featherIcons`,
-  //       title: "Feather Icons",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/icon/ionicIcons`,
-  //       title: "Ionic Icons",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/icon/flagIcons`,
-  //       title: "Flag Icons",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/icon/pe7Icons`,
-  //       title: "Pe7 Icons",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/icon/themifyIcons`,
-  //       title: "Themify Icons",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/icon/typiconsIcons`,
-  //       title: "Typicons Icons",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/icon/weatherIcons`,
-  //       title: "Weather Icons",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/icon/materialIcons`,
-  //       title: "Material Icons",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/icon/bootstrapIcons`,
-  //       title: "Bootstrap Icons",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //  ],
-  // },
-
-  // {
-  //   title: "Report Management",
-  //   icon: (
-  //     <svg
-  //       xmlns="http://www.w3.org/2000/svg"
-  //       className="side-menu__icon"
-  //       width="24"
-  //       height="24"
-  //       viewBox="0 0 24 24"
-  //     >
-  //       <path d="M20 7h-4V4c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v5H4c-1.103 0-2 .897-2 2v9a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9c0-1.103-.897-2-2-2zM4 11h4v8H4v-8zm6-1V4h4v15h-4v-9zm10 9h-4V9h4v10z" />
-  //     </svg>
-  //   ),
-  //   type: "sub",
-  //   selected: false,
-  //   active: false,
-  //   children: [
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/charts/charetjs`,
-  //       title: "onetooneReports",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/charts/charetgroupjs`,
-  //       title: "groupReports",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  // {
-  //   path: `${process.env.PUBLIC_URL}/charts/nvd3Charts`,
-  //   title: "Nvd3Charts",
-  //   type: "link",
-  //   active: false,
-  //   selected: false,
-  // },
-  // {
-  //   path: `${process.env.PUBLIC_URL}/charts/apexcharts`,
-  //   title: "ApexCharts",
-  //   type: "link",
-  //   active: false,
-  //   selected: false,
-  // },
-  // ],
-  // },
-  // ]
-  //}
-  //],
-  //},
-  //{
-  // menutitle: "MULTI LEVEL",
-  //Items: [
-  // {
-  //   title: "Menu-levels",
-  //   icon: (
-  //     <svg
-  //       xmlns="http://www.w3.org/2000/svg"
-  //       className="side-menu__icon"
-  //       width="24"
-  //       height="24"
-  //       viewBox="0 0 24 24"
-  //     >
-  //       <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
-  //     </svg>
-  //   ),
-  //   type: "sub",
-  //   selected: false,
-  //   active: false,
-  //   children: [
-  //     {
-  //       path: `${process.env.PUBLIC_URL}/#`,
-  //       title: "Level-1",
-  //       type: "link",
-  //       active: false,
-  //       selected: false,
-  //     },
-  //     {
-  //       title: "Level-2",
-  //       type: "sub",
-  //       selected: false,
-  //       active: false,
-  //       children: [
-  //         {
   //           path: `${process.env.PUBLIC_URL}/#`,
-  //           title: "Level-2.1",
+  //           title: "Level-1",
   //           type: "link",
   //           active: false,
   //           selected: false,
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/#`,
-  //           title: "Level-2.2",
-  //           type: "link",
-  //           active: false,
-  //           selected: false,
-  //         },
-
-  //         {
-  //           title: "Level-2.3",
+  //           title: "Level-2",
   //           type: "sub",
   //           selected: false,
   //           active: false,
   //           children: [
   //             {
   //               path: `${process.env.PUBLIC_URL}/#`,
-  //               title: "Level-2.3.1",
+  //               title: "Level-2.1",
   //               type: "link",
   //               active: false,
   //               selected: false,
   //             },
   //             {
   //               path: `${process.env.PUBLIC_URL}/#`,
-  //               title: "Level-2.3.2",
+  //               title: "Level-2.2",
   //               type: "link",
   //               active: false,
   //               selected: false,
   //             },
+
   //             {
-  //               path: `${process.env.PUBLIC_URL}/# `,
-  //               title: "Level-2.3.3",
-  //               type: "link",
-  //               active: false,
+  //               title: "Level-2.3",
+  //               type: "sub",
   //               selected: false,
+  //               active: false,
+  //               children: [
+  //                 {
+  //                   path: `${process.env.PUBLIC_URL}/#`,
+  //                   title: "Level-2.3.1",
+  //                   type: "link",
+  //                   active: false,
+  //                   selected: false,
+  //                 },
+  //                 {
+  //                   path: `${process.env.PUBLIC_URL}/#`,
+  //                   title: "Level-2.3.2",
+  //                   type: "link",
+  //                   active: false,
+  //                   selected: false,
+  //                 },
+  //                 {
+  //                   path: `${process.env.PUBLIC_URL}/# `,
+  //                   title: "Level-2.3.3",
+  //                   type: "link",
+  //                   active: false,
+  //                   selected: false,
+  //                 },
+  //               ],
   //             },
   //           ],
   //         },
   //       ],
   //     },
-  //   ],
-  // },
   //   ],
   // },
   // {
@@ -1946,7 +1606,7 @@ export const MENUITEMS = [
   //   selected: false,
   //   active: false,
   //   // children: [
-
+  //   // {
   //   path: `${process.env.PUBLIC_URL}/tables/defaultTables`,
   //   title: " Sticker Management",
   //   type: "link",
@@ -1980,13 +1640,13 @@ export const MENUITEMS = [
   //   selected: false,
   //   active: false,
   // children: [
-
-  // path: `${process.env.PUBLIC_URL}/maps/leafletMaps`,
-  // type: "link",
-  // active: false,
-  // selected: false,
-  // title: "Notification Management ",
-  //},
+  // {
+  //       // path: `${process.env.PUBLIC_URL}/maps/leafletMaps`,
+  //       // type: "link",
+  //       // active: false,
+  //       // selected: false,
+  //       // title: "Notification Management ",
+  //       //},
   // {
   //   path: `${process.env.PUBLIC_URL}/maps/vectorMaps`,
   //   type: "link",
@@ -1994,9 +1654,8 @@ export const MENUITEMS = [
   //   selected: false,
   //   title: "Vector Maps ",
   // },
+  //],
+  // },
+  //]
+  //},
 ];
-// },
-
-// },
-
-//],

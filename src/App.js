@@ -19,6 +19,7 @@ import "@fontsource/roboto/400-italic.css"; // Specify weight and style
 
 import history from "./history";
 import Authcontext from "./Store/Auth-context";
+// import GovtScheme from "./components/App/GovtScheme/GovtScheme.jsx";
 const App1 = React.lazy(() => import("../src/shade/layouts/App"));
 const Switcherapp = React.lazy(() =>
   import("../src/shade/layouts/Switcherapp")
@@ -49,6 +50,10 @@ const Cards = React.lazy(() => import("./components/App/Cards/Cards"));
 const Contacts = React.lazy(() => import("./components/App/Contacts/Contacts"));
 // New Pass
 const Sosuser = React.lazy(() => import("./components/App/Sosuser/Sosuser"));
+const Banner = React.lazy(() => import("./components/App/Banner/Banner"));
+const GovtScheme = React.lazy(() =>
+  import("./components/App/GovtScheme/GovtScheme")
+);
 const Filedetails = React.lazy(() =>
   import("./components/App/File-details/Filedetails")
 );
@@ -515,13 +520,22 @@ function App() {
                   element={<Contacts />}
                 />
                 <Route
+                  path={`${process.env.PUBLIC_URL}/app/filedetails`}
+                  element={<Filedetails />}
+                />
+                <Route
                   path={`${process.env.PUBLIC_URL}/app/sosuser`}
                   element={<Sosuser />}
                 />
                 <Route
-                  path={`${process.env.PUBLIC_URL}/app/filedetails`}
-                  element={<Filedetails />}
+                  path={`${process.env.PUBLIC_URL}/app/banner`}
+                  element={<Banner />}
                 />
+                <Route
+                  path={`${process.env.PUBLIC_URL}/app/govtscheme`}
+                  element={<GovtScheme />}
+                />
+
                 <Route
                   path={`${process.env.PUBLIC_URL}/app/filemanager`}
                   element={<Filemanager />}
