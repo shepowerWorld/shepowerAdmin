@@ -30,6 +30,7 @@ import axios from "axios";
 const Banner = () => {
   const [items, setItems] = useState([]);
   const [show, setShow] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
   const [payload, setPayload] = useState({
     policy_page_link: "",
     States_or_union_territories: "",
@@ -41,6 +42,7 @@ const Banner = () => {
   const token = sessionStorage.getItem("token");
   const [data, setData] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const Warningalert = (title) => {
     Swal.fire({
@@ -76,6 +78,7 @@ const Banner = () => {
       locationType: "",
     });
     setValidated(false);
+    setModalDelete(false);
   };
 
   const addPolicy = () => {
@@ -114,8 +117,8 @@ const Banner = () => {
       };
 
       const url = payload._id
-        ? `${APiURl}updatePolicy/${payload._id}`
-        : `${APiURl}addPolicy`;
+        ? `${APiURl}updateScheme?_id=${payload._id}`
+        : `${APiURl}addgovscheme`;
 
       const method = payload._id ? "PUT" : "POST";
 
@@ -146,10 +149,43 @@ const Banner = () => {
       setShow(false);
     }
   };
+  const openDelete = (event) => {
+    console.log("event delete ", event);
+    setModalDelete(true);
+    setSelectedItem(event);
+  };
+  const handleDelete = async (itemToDelete) => {
+    console.log("Deleting item with ID:", selectedItem._id);
 
-  const handleDelete = (itemToDelete) => {
-    console.log("Deleting item with ID:", itemToDelete._id);
+    // console.log('payload._id',payload);
+
+    // console.log("Deleting item with ID:", itemToDelete);
     // delete api call
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
+      const response = await fetch(
+        `${APiURl}deleteScheme?_id=${selectedItem._id}`,
+        {
+          method: "DELETE",
+          headers: myHeaders,
+        }
+      );
+      if (response.status === 200 || response.status === 201) {
+        showAlert("Policy Deleted successfully!");
+        fetchUsers();
+        setModalDelete(false);
+      } else {
+        // throw new Error("Failed to update policy");
+      }
+    } catch (error) {
+      showAlert(
+        error.message || "Failed to fetch users. Please try again.",
+        "error"
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const fetchUsers = useCallback(async () => {
@@ -247,7 +283,7 @@ const Banner = () => {
               <FaEdit /> Edit
             </button>
             <button
-              onClick={() => handleDelete(row)}
+              onClick={() => openDelete(row)}
               className="delete-btn"
               style={{
                 background: "red",
@@ -325,7 +361,7 @@ const Banner = () => {
 
   return (
     <div className="container mt-4">
-      <div className="flex text-left mb-3">
+      <div className="flex text-end mb-3">
         <Button variant="primary" onClick={() => addPolicy()}>
           Add Policy
         </Button>
@@ -432,6 +468,27 @@ const Banner = () => {
             </Button>
           </Form>
         </Modal.Body>
+      </Modal>
+      {/* Delete Modal  */}
+      <Modal show={modalDelete} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <FaTrash size={50} className="text-danger mb-3" />
+          <h4 className="mb-2">Are you sure you want to delete?</h4>
+          <p className="text-muted">
+            This action is permanent and cannot be undone.
+          </p>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
       </Modal>
     </div>
   );
